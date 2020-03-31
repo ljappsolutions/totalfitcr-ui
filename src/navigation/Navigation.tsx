@@ -11,11 +11,17 @@ interface INavigationProps {
 
 const useStyles = createUseStyles({
   navBarTitle: {
-    "padding-left": "37px",
     "& h1": {
-      "color": colors.red,
+      "color": colors.white,
       "font-size": "48px",
     }
+  },
+  navBarContainer: {
+    "background-color": colors.red,
+    "padding": "0 15px",
+  },
+  container: {
+    "padding": "15px"
   }
 })
 
@@ -28,7 +34,7 @@ const Navigation: FunctionComponent<INavigationProps> = (props: INavigationProps
     <>
         <Grid
           container={true}
-          className="navBarContainer"
+          className={classes.navBarContainer}
           direction="row"
           justify="center"
           alignItems="center"
@@ -39,7 +45,7 @@ const Navigation: FunctionComponent<INavigationProps> = (props: INavigationProps
           <Grid item={true} xs={12} sm={6}>
             <SignOut />
           </Grid>
-          <Grid className="navBarMenu" item={true} xs={12}>
+          <Grid item={true} xs={12}>
             <NavBar />
           </Grid>
         </Grid>
@@ -50,7 +56,9 @@ const Navigation: FunctionComponent<INavigationProps> = (props: INavigationProps
             boxShadow: `0 1px 4px -14px #8c8c8c inset`,
           }}
         />
-        {children}
+        <Grid container className={classes.container}>
+          {children}
+        </Grid>
       </>
   )
 }

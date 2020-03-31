@@ -1,0 +1,98 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Total Fit Cognito Config",
+    "Resources": {
+        "TFCRUserPool": {
+            "Type": "AWS::Cognito::UserPool",
+            "Properties": {
+                "UsernameAttributes": [
+                    "email"
+                ],
+                "UserPoolName": "tfcr-user-pool",
+                "Schema": [
+                    {
+                        "Name": "name",
+                        "AttributeDataType": "String",
+                        "Mutable": true,
+                        "Required": true
+                    },
+                    {
+                        "Name": "family_name",
+                        "AttributeDataType": "String",
+                        "Mutable": true,
+                        "Required": true
+                    }
+                ]
+            }
+        },
+        "TFCRUserPoolClient": {
+            "Type": "AWS::Cognito::UserPoolClient",
+            "DependsOn": [
+                "TFCRUserPool"
+            ],
+            "Properties": {
+                "CallbackURLs": [
+                    "http://localhost:3000"
+                ],
+                "ClientName": "tfcr-fe-dev",
+                "AllowedOAuthFlowsUserPoolClient": true,
+                "ExplicitAuthFlows": [
+                    "ALLOW_USER_PASSWORD_AUTH",
+                    "ALLOW_REFRESH_TOKEN_AUTH"
+                ],
+                "AllowedOAuthFlows": [
+                    "code",
+                    "implicit"
+                ],
+                "AllowedOAuthScopes": [
+                    "phone",
+                    "email",
+                    "openid",
+                    "profile",
+                    "aws.cognito.signin.user.admin"
+                ],
+                "GenerateSecret": false,
+                "LogoutURLs": [
+                    "http://localhost:3000/logout"
+                ],
+                "UserPoolId": {
+                    "Ref": "TFCRUserPool"
+                },
+                "SupportedIdentityProviders": [
+                    "COGNITO",
+                    "Google"
+                ]
+            }
+        },
+        "UserPoolDomain": {
+            "Type": "AWS::Cognito::UserPoolDomain",
+            "Properties": {
+                "UserPoolId": {
+                    "Ref": "TFCRUserPool"
+                },
+                "Domain": "totalfitcr-dev"
+            }
+        },
+        "GoogleIdentityProvider": {
+            "Type": "AWS::Cognito::UserPoolIdentityProvider",
+            "Properties": {
+                "UserPoolId": {
+                    "Ref": "TFCRUserPool"
+                },
+                "ProviderName": "Google",
+                "ProviderDetails": {
+                    "client_id": "1007558569927-0qsj23n8f2h15lds9ea2bd9e06nehdak.apps.googleusercontent.com",
+                    "client_secret": "-MqiFJ19v9vInJY0xjbeyQVs",
+                    "authorize_scopes": "profile email openid"
+                },
+                "ProviderType": "Google",
+                "AttributeMapping": {
+                    "email": "email",
+                    "name": "name",
+                    "sub": "username",
+                    "family_name": "family_name"
+                }
+            }
+        }
+    }
+}

@@ -1,4 +1,8 @@
 export const colors = {
-  red: '#c81414', //FirstFactory red
+  red: '#860303',
+  green: '#028787',
   black: 'black',
+  white: 'white',
 };
+
+//NOTE: based on https://www.2020colours.com/860303

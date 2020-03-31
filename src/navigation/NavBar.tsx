@@ -8,12 +8,15 @@ import { colors } from '../shared/colors';
 const useStyles = createUseStyles({
   active: {
     "& button": {
-      color: colors.red,
+      'background': colors.green,
     }
   },
   "nav-bar-menu": {
     "& a": {
       "text-decoration": "none",
+      "& button": {
+        color: colors.white,
+      }
     },
   },
 })

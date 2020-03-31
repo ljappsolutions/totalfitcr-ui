@@ -1,8 +1,8 @@
 export const config = {
-  userPoolId: 'us-east-1_QPxsYBMvD',
-  userPoolWebClientId: '5tr88qdi3biq6eobh7pmcrpr0t',
+  userPoolId: 'us-east-1_k6ka2yoSi',
+  userPoolWebClientId: '4qs4uujnngggvf8i420fg5edbc',
   oauth: {
-    domain: 'auth-dev.firstfactory.com',
+    domain: 'totalfitcr-dev.auth.us-east-1.amazoncognito.com',
     scope: [
       'phone',
       'email',
@@ -11,7 +11,7 @@ export const config = {
       'aws.cognito.signin.user.admin',
     ],
     redirectSignIn: 'http://localhost:3000',
-    redirectSignOut: 'http://localhost:3006/logout',
+    redirectSignOut: 'http://localhost:3000/logout',
     responseType: 'token', // or 'token', note that REFRESH token will only be generated when the responseType is code
   },
 };
