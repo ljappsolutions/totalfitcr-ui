@@ -10,6 +10,8 @@ import Amplify, { Hub, Auth } from 'aws-amplify';
 import { withOAuth } from 'aws-amplify-react';
 import Navigation from "./navigation/Navigation";
 import { Grid, TextField } from "@material-ui/core";
+import { CustomTextField } from "./shared/components/TextField";
+import { createUseStyles } from "react-jss";
 
 Amplify.configure(config);
 
@@ -93,6 +95,12 @@ interface IPersonState {
   email: string;
 }
 
+const useStyles = createUseStyles({
+  container: {
+    "margin": "15px"
+  }
+})
+
 function Home() {
   const [state, setState] = useState<IPersonState>({
     name: '',
@@ -100,26 +108,31 @@ function Home() {
     email: '',
   });
 
-  const onPropChange = (propName: string) => (event: any) =>  {
+  const onPropChange = (propName: string) => (event: any) => {
     setState({
       ...state,
       [propName]: event.target.value,
     });
   }
-
+  const classes = useStyles();
   return (
     <>
-    <Grid container>
-      <Grid item xs={6}>
-        <TextField label="Nombre" value={state.name} onChange={onPropChange('name')} placeholder="Juan"></TextField>
+      <Grid container className={classes.container}>
+        <Grid item xs={6}>
+          <CustomTextField label="Nombre" value={state.name} onChange={onPropChange('name')} placeholder="Juan"></CustomTextField>
+        </Grid>
       </Grid>
-    </Grid>
-    <Grid container>
-    <Grid item xs={6}>
-      <TextField label="Apellidos" value={state.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero"></TextField>
-    </Grid>
-  </Grid>
-  </>
+      <Grid container className={classes.container}>
+        <Grid item xs={6}>
+          <CustomTextField label="Apellidos" value={state.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero"></CustomTextField>
+        </Grid>
+      </Grid>
+      <Grid container className={classes.container}>
+        <Grid item xs={6}>
+          <CustomTextField label="Correo" value={state.email} onChange={onPropChange('email')} placeholder="sample@mail.com"></CustomTextField>
+        </Grid>
+      </Grid>
+    </>
   );
 }
 
