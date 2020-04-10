@@ -74,7 +74,7 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/about">
+          <Route path="/contacto">
             <About />
           </Route>
           <Route path="/dashboard">
@@ -89,7 +89,7 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
 function Home() {
   return (
     <div>
-      <h2>Home</h2>
+      <h2>Inicio</h2>
     </div>
   );
 }
@@ -97,7 +97,7 @@ function Home() {
 function About() {
   return (
     <div>
-      <h2>About</h2>
+      <h2>Acerca de nosotros</h2>
     </div>
   );
 }
