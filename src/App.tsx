@@ -87,28 +87,36 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
   )
 }
 
+interface IPersonState {
+  name: string;
+  lastName: string;
+  email: string;
+}
+
 function Home() {
-  const [name, setName] = useState<string>('');
+  const [state, setState] = useState<IPersonState>({
+    name: '',
+    lastName: '',
+    email: '',
+  });
 
-  const onPropChange = (event: any) =>  {
-    setName(event.target.value);
-  }
-  const [lastName, setLastName] = useState<string>('');
-
-  const onLastNameChange = (event: any) =>  {
-    setLastName(event.target.value);
+  const onPropChange = (propName: string) => (event: any) =>  {
+    setState({
+      ...state,
+      [propName]: event.target.value,
+    });
   }
 
   return (
     <>
     <Grid container>
       <Grid item xs={6}>
-        <TextField label="Nombre" value={name} onChange={onPropChange} placeholder="Juan"></TextField>
+        <TextField label="Nombre" value={state.name} onChange={onPropChange('name')} placeholder="Juan"></TextField>
       </Grid>
     </Grid>
     <Grid container>
     <Grid item xs={6}>
-      <TextField label="Apellidos" value={lastName} onChange={onLastNameChange} placeholder="Cambronero"></TextField>
+      <TextField label="Apellidos" value={state.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero"></TextField>
     </Grid>
   </Grid>
   </>
