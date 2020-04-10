@@ -9,6 +9,7 @@ import { config } from './aws-custom-exports';
 import Amplify, { Hub, Auth } from 'aws-amplify';
 import { withOAuth } from 'aws-amplify-react';
 import Navigation from "./navigation/Navigation";
+import { Grid, TextField } from "@material-ui/core";
 
 Amplify.configure(config);
 
@@ -87,10 +88,21 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
 }
 
 function Home() {
+  const [firstName, setFirstName] = useState<string>('');
+
+  const onPropChange = (event: any) =>  {
+    setFirstName(event.target.value);
+  }
+
   return (
-    <div>
-      <h2>Inicio</h2>
-    </div>
+    <Grid container>
+      <Grid item xs={6}>
+        <h2>Inicio</h2>
+      </Grid>
+      <Grid item xs={6}>
+        <TextField label="First name" value={firstName} onChange={onPropChange} placeholder="Like Juan"></TextField>
+      </Grid>
+    </Grid>
   );
 }
 
