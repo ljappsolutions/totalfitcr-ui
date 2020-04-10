@@ -88,21 +88,30 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
 }
 
 function Home() {
-  const [firstName, setFirstName] = useState<string>('');
+  const [name, setName] = useState<string>('');
 
   const onPropChange = (event: any) =>  {
-    setFirstName(event.target.value);
+    setName(event.target.value);
+  }
+  const [lastName, setLastName] = useState<string>('');
+
+  const onLastNameChange = (event: any) =>  {
+    setLastName(event.target.value);
   }
 
   return (
+    <>
     <Grid container>
       <Grid item xs={6}>
-        <h2>Inicio</h2>
-      </Grid>
-      <Grid item xs={6}>
-        <TextField label="First name" value={firstName} onChange={onPropChange} placeholder="Like Juan"></TextField>
+        <TextField label="Nombre" value={name} onChange={onPropChange} placeholder="Juan"></TextField>
       </Grid>
     </Grid>
+    <Grid container>
+    <Grid item xs={6}>
+      <TextField label="Apellidos" value={lastName} onChange={onLastNameChange} placeholder="Cambronero"></TextField>
+    </Grid>
+  </Grid>
+  </>
   );
 }
 
