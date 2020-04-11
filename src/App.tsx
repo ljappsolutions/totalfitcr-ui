@@ -9,9 +9,7 @@ import { config } from './aws-custom-exports';
 import Amplify, { Hub, Auth } from 'aws-amplify';
 import { withOAuth } from 'aws-amplify-react';
 import Navigation from "./navigation/Navigation";
-import { Grid, TextField } from "@material-ui/core";
-import { CustomTextField } from "./shared/components/TextField";
-import { createUseStyles } from "react-jss";
+import { PersonRecord } from "./person-record/PersonRecord";
 
 Amplify.configure(config);
 
@@ -77,8 +75,8 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/contacto">
-            <About />
+          <Route path="/person-record">
+            <PersonRecord />
           </Route>
           <Route path="/dashboard">
             <Dashboard />
@@ -89,57 +87,10 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
   )
 }
 
-interface IPersonState {
-  name: string;
-  lastName: string;
-  email: string;
-}
-
-const useStyles = createUseStyles({
-  container: {
-    "margin": "15px"
-  }
-})
-
 function Home() {
-  const [state, setState] = useState<IPersonState>({
-    name: '',
-    lastName: '',
-    email: '',
-  });
-
-  const onPropChange = (propName: string) => (event: any) => {
-    setState({
-      ...state,
-      [propName]: event.target.value,
-    });
-  }
-  const classes = useStyles();
-  return (
-    <>
-      <Grid container className={classes.container}>
-        <Grid item xs={6}>
-          <CustomTextField label="Nombre" value={state.name} onChange={onPropChange('name')} placeholder="Juan"></CustomTextField>
-        </Grid>
-      </Grid>
-      <Grid container className={classes.container}>
-        <Grid item xs={6}>
-          <CustomTextField label="Apellidos" value={state.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero"></CustomTextField>
-        </Grid>
-      </Grid>
-      <Grid container className={classes.container}>
-        <Grid item xs={6}>
-          <CustomTextField label="Correo" value={state.email} onChange={onPropChange('email')} placeholder="sample@mail.com"></CustomTextField>
-        </Grid>
-      </Grid>
-    </>
-  );
-}
-
-function About() {
   return (
     <div>
-      <h2>Acerca de nosotros</h2>
+      <h2>Home</h2>
     </div>
   );
 }

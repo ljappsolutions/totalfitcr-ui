@@ -35,7 +35,7 @@ const NavBar: FunctionComponent = () => {
     <div className={classes["nav-bar-menu"]}>
       {getNavLinkfor('Inicio', '/', true)}
       {getNavLinkfor('Dashboard', '/dashboard')}
-      {getNavLinkfor('Contáctanos', '/contacto')}
+      {getNavLinkfor('File', '/person-record')}
     </div>
   );
 }
