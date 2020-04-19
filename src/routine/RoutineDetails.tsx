@@ -12,13 +12,20 @@ interface IRoutineDetailsProps {
 const useStyles = createUseStyles({
   routineDetails: {
     border: '1px solid black',
-    height: '100%',
+    padding: '10px',
     display: 'flex',
     'overflow-x': 'auto',
   },
   header: {
     display: 'flex !important',
     flexWrap: 'nowrap !important',
+    overflow: 'auto',
+  },
+  row: {
+    display: 'flex !important',
+    flexWrap: 'nowrap !important',
+  },
+  overflow: {
     overflow: 'auto',
   },
   cellFixed: {
@@ -39,21 +46,37 @@ export const RoutineDetails: FunctionComponent<IRoutineDetailsProps> = (props) =
   return (
     <Grid container className={classes.routineDetails}>
       <Grid container className={classes.header}>
-        <div className={classes.cellFixed}>Ejercicio</div>
-        <div className={classes.header}>
+        <div className={classes.cellFixed}>
+          <Grid container>
+            Ejercicio
+          </Grid>
           {
-            weeks.map((week) =>
-              <div className={classes.cell}>{`Week ${week + 1}`}</div>)
+            exercises.map((exercise) =>
+              <Grid container>
+                {exercise}
+              </Grid>
+            )
+          }
+        </div>
+        <div className={classes.overflow}>
+          <Grid container className={classes.row}>
+            {
+              weeks.map((week) =>
+                <div className={classes.cell}>{`Week ${week + 1}`}</div>)
+            }
+          </Grid>
+          {
+            exercises.map((exercise) =>
+              <Grid container className={classes.row}>
+                {
+                  weeks.map((week) =>
+                    <div className={classes.cell}>{`Something`}</div>)
+                }
+              </Grid>
+            )
           }
         </div>
       </Grid>
-      {
-        exercises.map((exercise) =>
-          <Grid container>
-            <RoutineRow nbrOfWeeks={nbrOfWeeks} exercise={exercise} />
-          </Grid>
-        )
-      }
     </Grid>
   );
 }
