@@ -6,19 +6,39 @@ export class RoutineTemplateService {
       setTimeout(() => {
         resolve([
           {
-            name: 'Upper Body Training',
+            name: 'Tren superior',
             trainer: 1,
             exercises: [
-              'biceps',
-              'triceps'
+              {
+                name: 'Curl de biceps',
+                description: '',
+                muscles: ['biceps']
+              },
+              {
+                name: 'Extensión de triceps',
+                description: '',
+                muscles: ['triceps']
+              },
             ]
           },
           {
-            name: 'Lower Body',
+            name: 'Tren inferior',
             trainer: 1,
             exercises: [
-              'hamstrings',
-              'quadriceps'
+              {
+                name: 'Press de pierna',
+                description: '',
+                muscles: [
+                  'muslos'
+                ]
+              },
+              {
+                name: 'Extensión de rodilla',
+                description: '',
+                muscles: [
+                  'quadriceps'
+                ]
+              },
             ]
           }
         ]);

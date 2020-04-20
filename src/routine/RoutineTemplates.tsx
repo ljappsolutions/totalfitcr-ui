@@ -7,7 +7,7 @@ import { RoutineTemplate } from "../shared/models/routine-template";
 import { TemplateBox } from "./TemplateBox";
 
 interface IRoutineTemplatesProps {
-
+  selectTemplate: (template: RoutineTemplate) => void
 }
 
 const useStyles = createUseStyles({
@@ -19,6 +19,7 @@ const useStyles = createUseStyles({
 
 export const RoutineTemplates: FunctionComponent<IRoutineTemplatesProps> = (props) => {
   const classes = useStyles();
+  const { selectTemplate } = props;
   const [templates, setTemplates] = useState<RoutineTemplate[]>();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export const RoutineTemplates: FunctionComponent<IRoutineTemplatesProps> = (prop
   return (
     <>
       <Grid container>
-        <Grid item xs={12}>My templates</Grid>
+        <Grid item xs={12}>Mis plantillas</Grid>
       </Grid>
       <Grid container>
         <Grid item xs={12}>
@@ -44,7 +45,8 @@ export const RoutineTemplates: FunctionComponent<IRoutineTemplatesProps> = (prop
                   templates.map(template => (
                     <TemplateBox template={template}
                       key={template.name}
-                      selectable={true} />
+                      selectable={true} 
+                      onDoubleClick={selectTemplate}/>
                   ))
                 }
               </ul>

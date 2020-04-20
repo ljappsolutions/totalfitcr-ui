@@ -6,6 +6,7 @@ import { RoutineTemplate } from "../shared/models/routine-template";
 interface ITemplateBoxProps {
   template: RoutineTemplate;
   selectable: boolean;
+  onDoubleClick: (template: RoutineTemplate) => void;
 }
 
 const useStyles = createUseStyles({
@@ -24,11 +25,11 @@ export const TemplateBox: FunctionComponent<ITemplateBoxProps> = (props) => {
   const { template } = props;
 
   const addTemplate = () => {
-    console.log(template);
+    props.onDoubleClick(template);
   }
 
   return (
-    <li className={classes.templateBox} onClick={addTemplate}>
+    <li className={classes.templateBox} onDoubleClick={addTemplate}>
       {template.name}
     </li>
   );
