@@ -6,11 +6,12 @@ interface IProps
   onChange: any;
   placeholder: string;
   label: string;
+  maxLength?: number;
 }
 
 export const CustomTextField: FunctionComponent<IProps> = (props: IProps) => {
   return (
     <TextField label={props.label} value={props.value} onChange={props.onChange} placeholder={props.placeholder} 
-          variant="outlined"></TextField>
+          variant="outlined" fullWidth inputProps={{maxLength:props.maxLength }} ></TextField>
   );
 }
