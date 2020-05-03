@@ -14,7 +14,7 @@ interface IRoutineTemplatesProps {
 export const RoutineTemplateSelector: FunctionComponent<IRoutineTemplatesProps> = (props) => {
   const classes = useSelectorStyles();
   const { selectTemplate } = props;
-  const [templates, setTemplates] = useState<RoutineTemplate[]>();
+  const [templates, setTemplates] = useState<RoutineTemplate[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

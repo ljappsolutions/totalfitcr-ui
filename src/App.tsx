@@ -11,6 +11,7 @@ import { withOAuth } from 'aws-amplify-react';
 import Navigation from "./navigation/Navigation";
 import { PersonRecord } from "./person-record/PersonRecord";
 import { Routine } from "./routine/Routine";
+import { CustomBreadcrumbs } from "./shared/components/Breadcrumbs";
 
 Amplify.configure(config);
 
@@ -95,6 +96,7 @@ function Home() {
   return (
     <div>
       <h2>Home</h2>
+      <CustomBreadcrumbs numberOfRoutines={4} currentStep={3}></CustomBreadcrumbs>
     </div>
   );
 }
