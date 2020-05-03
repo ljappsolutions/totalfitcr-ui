@@ -7,6 +7,7 @@ import { RoutineTemplate } from "../shared/models/routine-template";
 import { EditableExercise, SeriesDetails, Exercise } from "../shared/models/exercise";
 import shortid from "shortid";
 import { ExerciseSelector } from "./ExerciseSelector";
+import { getArrayFromNumber } from "../shared/utils/arrays";
 
 interface IRoutineProps {
 
@@ -58,7 +59,7 @@ export const Routine: FunctionComponent<IRoutineProps> = (props) => {
   }
 
   const generateSeries = () => {
-    const weeks = Array.from(Array(routine.nbrOfWeeks).keys());
+    const weeks = getArrayFromNumber(routine.nbrOfWeeks);
     const series: SeriesDetails[] = weeks.map(week => (
       {
         information: '',
@@ -88,7 +89,9 @@ export const Routine: FunctionComponent<IRoutineProps> = (props) => {
         </Grid>
       </Grid>
       <Grid item xs={10}>
-        <RoutineDetails nbrOfWeeks={routine.nbrOfWeeks} exercises={routine.exercises}
+        <RoutineDetails 
+          nbrOfWeeks={routine.nbrOfWeeks} 
+          exercises={routine.exercises}
           onDelete={onDeleteExercises} />
       </Grid>
     </Grid>

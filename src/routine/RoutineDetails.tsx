@@ -5,6 +5,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { EditableExercise } from "../shared/models/exercise";
 import { useRoutineDetailsStyles } from "./styles";
 import { CustomTextField } from "../shared/components/TextField";
+import { getArrayFromNumber } from "../shared/utils/arrays";
 
 interface IRoutineDetailsProps {
   nbrOfWeeks: number;
@@ -16,7 +17,7 @@ export const RoutineDetails: FunctionComponent<IRoutineDetailsProps> = (props) =
   const classes = useRoutineDetailsStyles();
   const { nbrOfWeeks } = props;
   const [exercises, setExercises] = useState<EditableExercise[]>([]);
-  const weeks = Array.from(Array(nbrOfWeeks).keys());
+  const weeks = getArrayFromNumber(nbrOfWeeks);
   const rowsRefs = useRef<Map<string, (HTMLDivElement | null)[]>>(new Map());
   const [selectAll, setSelectAll] = useState<boolean>(false);
   
