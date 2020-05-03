@@ -1,11 +1,12 @@
 import { FunctionComponent, useState } from "react";
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { RoutineTemplates } from "./RoutineTemplates";
+import { RoutineTemplateSelector } from "./RoutineTemplates";
 import { RoutineDetails } from "./RoutineDetails";
 import { RoutineTemplate } from "../shared/models/routine-template";
-import { EditableExercise, SeriesDetails } from "../shared/models/exercise";
+import { EditableExercise, SeriesDetails, Exercise } from "../shared/models/exercise";
 import shortid from "shortid";
+import { ExerciseSelector } from "./ExerciseSelector";
 
 interface IRoutineProps {
 
@@ -22,21 +23,37 @@ export const Routine: FunctionComponent<IRoutineProps> = (props) => {
     exercises: [],
   });
 
-  const addExercises = (template: RoutineTemplate) => {
+  const includeFromTemplate = (template: RoutineTemplate | Exercise) => {
+    const templateCasted = template as RoutineTemplate;
+    const exercises = templateCasted.exercises.map(x => {
+      const newExercise: EditableExercise = {
+        ...x,
+        id: shortid.generate(),
+        selected: false,
+        series: generateSeries(),
+      };
+      return newExercise;
+    });
+    addExercises(exercises);
+  }
+
+  const includeExercise = (exercise: RoutineTemplate | Exercise) => {
+    const newExercise: EditableExercise = {
+      ...exercise as Exercise,
+      id: shortid.generate(),
+      selected: false,
+      series: generateSeries(),
+    };
+    addExercises([newExercise]);
+  }
+
+  const addExercises = (exercises: EditableExercise[]) => {
     setRoutine({
       ...routine,
       exercises: [
         ...routine.exercises,
-        ...template.exercises.map(x => {
-          const newExercise: EditableExercise = {
-            ...x,
-            id: shortid.generate(),
-            selected: false,
-            series: generateSeries(), 
-          };
-          return newExercise;
-        })
-      ]
+        ...exercises
+      ],
     });
   }
 
@@ -57,17 +74,22 @@ export const Routine: FunctionComponent<IRoutineProps> = (props) => {
       exercises: [
         ...routine.exercises.filter(x => ids.indexOf(x.id) >= 0),
       ]
-    })
+    });
   }
 
   return (
     <Grid container>
       <Grid item xs={2}>
-        <RoutineTemplates selectTemplate={addExercises} />
+        <Grid container>
+          <RoutineTemplateSelector selectTemplate={includeFromTemplate} />
+        </Grid>
+        <Grid container>
+          <ExerciseSelector selectExercise={includeExercise} />
+        </Grid>
       </Grid>
       <Grid item xs={10}>
         <RoutineDetails nbrOfWeeks={routine.nbrOfWeeks} exercises={routine.exercises}
-          onDelete={onDeleteExercises}/>
+          onDelete={onDeleteExercises} />
       </Grid>
     </Grid>
   );

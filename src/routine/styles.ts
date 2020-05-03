@@ -45,10 +45,13 @@ export const useRoutineDetailsStyles = createUseStyles({
   }
 });
 
-export const useRoutineTemplatesStyles = createUseStyles({
+export const useSelectorStyles = createUseStyles({
   templateBoxList: {
     'list-style-type': 'none',
     padding: '0.2em'
+  },
+  filter: {
+    marginTop: 10
   }
 });
 

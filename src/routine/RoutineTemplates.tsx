@@ -4,14 +4,15 @@ import { Grid } from "@material-ui/core";
 import { RoutineTemplateService } from "../shared/services/routine-template";
 import { RoutineTemplate } from "../shared/models/routine-template";
 import { TemplateBox } from "./TemplateBox";
-import { useRoutineTemplatesStyles } from "./styles";
+import { useSelectorStyles } from "./styles";
+import { Exercise } from "../shared/models/exercise";
 
 interface IRoutineTemplatesProps {
-  selectTemplate: (template: RoutineTemplate) => void
+  selectTemplate: (template: RoutineTemplate | Exercise) => void
 }
 
-export const RoutineTemplates: FunctionComponent<IRoutineTemplatesProps> = (props) => {
-  const classes = useRoutineTemplatesStyles();
+export const RoutineTemplateSelector: FunctionComponent<IRoutineTemplatesProps> = (props) => {
+  const classes = useSelectorStyles();
   const { selectTemplate } = props;
   const [templates, setTemplates] = useState<RoutineTemplate[]>();
 
