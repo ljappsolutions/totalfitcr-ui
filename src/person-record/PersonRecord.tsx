@@ -2,12 +2,15 @@ import { createUseStyles } from "react-jss";
 import React, { useState } from "react";
 import { Grid, Select, MenuItem, FilledInput, InputAdornment, Input, InputLabel, FormControlLabel, Checkbox, ListItemText, FormControl, TextField } from "@material-ui/core";
 import { CustomTextField } from "../shared/components/TextField";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 interface IPersonState {
   id: string;
   name: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
+  birthday: string;
   objective: string;
   height: number;
   weight: number;
@@ -45,6 +48,9 @@ const useStyles = createUseStyles({
   },
   column: {
     padding: "0 5px"
+  },
+  select: {
+    "margin": "15px"
   }
 })
 
@@ -54,6 +60,8 @@ export const PersonRecord: React.FunctionComponent = () => {
     name: '',
     lastName: '',
     email: '',
+    phoneNumber: '',
+    birthday: '',
     objective: '',
     height: 0,
     weight: 0,
@@ -71,6 +79,23 @@ export const PersonRecord: React.FunctionComponent = () => {
 
   const [errors, setErrors] = useState<any>({});
 
+  const onPropPhoneNumberChange = (propName: string) => (event: any) => {
+    let value = event.target.value;
+    if (propName === 'phoneNumber') {
+      if (event.target.value.length == 8) {
+        value = event.target.value;
+        errors["phoneNumber"] = '';
+      } else {
+        errors["phoneNumber"] = "Número invalido."
+        setErrors({ ...errors });
+      }
+      setState({
+        ...state,
+        [propName]: value,
+      });
+    }
+  }
+
   const onPropIdChange = (propName: string) => (event: any) => {
     let value = event.target.value;
     if (propName === 'id') {
@@ -80,7 +105,6 @@ export const PersonRecord: React.FunctionComponent = () => {
       } else {
         errors["id"] = "Cédula invalida."
         setErrors({ ...errors });
-        console.log(errors);
       }
       setState({
         ...state,
@@ -99,6 +123,40 @@ export const PersonRecord: React.FunctionComponent = () => {
     setState({
       ...state,
       [propName]: value,
+    });
+  }
+  const onPropEmailChange = (event: any) => {
+    let value = event.target.value;
+    if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+      errors["email"] = 'Correo invalido';
+      setErrors({ ...errors });
+    } else {
+      errors["email"] = '';
+    }
+    setState({
+      ...state,
+      email: value
+    });
+  }
+
+  const onPropRoutinesFocusesChange = (index: number) => (event: any) => {
+    let value = event.target.value;
+    const previousValues = state.routinesFocuses;
+    previousValues[index] = value;
+    setState({
+      ...state,
+      routinesFocuses: previousValues
+    });
+  }
+
+  const checkRequiredFields = (values: any) => {
+    const requiredFields = ['name', 'lastName', 'email', 'id', 'phoneNumber', 'birthday']
+    requiredFields.forEach(field => {
+      if (!values[field]) {
+        errors[field] = 'Required'
+      }else{
+        errors[field] = ''
+      }
     });
   }
 
@@ -122,19 +180,45 @@ export const PersonRecord: React.FunctionComponent = () => {
         <Grid item xs={8}>
           <Grid container className={classes.container}>
             <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Nombre" value={state.name} onChange={onPropChange('name')} placeholder="Juan"></CustomTextField>
+              <CustomTextField label="Nombre" value={state.name} onChange={onPropChange('name')} placeholder="Juan" required={true} ></CustomTextField>
+              <span style={{ color: "red" }}>{errors["name"]}</span>
             </Grid>
             <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Apellidos" value={state.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero" ></CustomTextField>
+              <CustomTextField label="Apellidos" value={state.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero" required={true} ></CustomTextField>
+              <span style={{ color: "red" }}>{errors["lastName"]}</span>
             </Grid>
           </Grid>
           <Grid container className={classes.container}>
             <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Cédula" value={state.id} onChange={onPropIdChange('id')} placeholder="101000100" maxLength={9} ></CustomTextField>
+              <CustomTextField label="Cédula" value={state.id} onChange={onPropIdChange('id')} placeholder="101000100" maxLength={9} required={true}  ></CustomTextField>
               <span style={{ color: "red" }}>{errors["id"]}</span>
             </Grid>
             <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Correo" value={state.email} onChange={onPropChange('email')} placeholder="sample@mail.com"></CustomTextField>
+              <CustomTextField label="Correo" value={state.email} onChange={onPropEmailChange} placeholder="sample@mail.com" required={true} ></CustomTextField>
+              <span style={{ color: "red" }}>{errors["email"]}</span>
+
+            </Grid>
+          </Grid>
+          <Grid container className={classes.container}>
+            <Grid item xs={6} className={classes.column}>
+              <CustomTextField label="Número de Celular" value={state.phoneNumber} onChange={onPropPhoneNumberChange('phoneNumber')} placeholder="+506" maxLength={8} required={true} ></CustomTextField>
+              <span style={{ color: "red" }}>{errors["phoneNumber"]}</span>
+            </Grid>
+            <Grid item xs={6} className={classes.column}>
+              <TextField
+                id="date"
+                label="Birthday"
+                type="date"
+                defaultValue="2017-05-24"
+                value={state.birthday}
+                onChange={onPropChange('birthday')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                fullWidth
+                required
+              />
+              <span style={{ color: "red" }}>{errors["birthday"]}</span>
             </Grid>
           </Grid>
           <Grid container className={classes.container}>
@@ -212,24 +296,25 @@ export const PersonRecord: React.FunctionComponent = () => {
             <Grid item xs={6} className={classes.column} >
               {
                 state.haveInjury && (
-                  <FormControl fullWidth>
+                  <>
                     <InputLabel id="demo-mutiple-checkbox-label">Lesiones</InputLabel>
-                    <Select
-                      multiple
-                      value={state.injuries}
-                      onChange={onPropChange('injuries')}
-                      renderValue={(selected) => (selected as string[]).join(', ')}
-                      MenuProps={MenuProps}
-                      placeholder="Seleccione una lesion"
-                    >
-                      {injuries.map((injury) => (
-                        <MenuItem key={injury.name} value={injury.name}>
-                          <Checkbox checked={state.injuries.indexOf(injury.name) > -1} />
-                          <ListItemText primary={injury.name} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                    <FormControl fullWidth>
+                      <Autocomplete
+                        multiple
+                        id="tags-standard"
+                        options={injuries}
+                        getOptionLabel={(option) => option.name}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="standard"
+                            label="Seleccione lesiones"
+                          />
+                        )}
+                      />
+
+                    </FormControl>
+                  </>
                 )
               }
             </Grid>
@@ -291,30 +376,29 @@ export const PersonRecord: React.FunctionComponent = () => {
               />
             </Grid>
             <Grid item xs={6} className={classes.column}>
-            <InputLabel htmlFor="formatted-text-mask-input">Enfoques</InputLabel>
-
               {
                 routines.map((routine, index) => {
                   return (
-
-                    <Select
-                      labelId="demo-simple-select-placeholder-label-label"
-                      id="demo-simple-select-placeholder-label"
-                      value={state.routinesFocuses[index] ?? ""}
-                      onChange={onPropChange('routinesFocuses')}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      displayEmpty
-                    >
-
-                      <MenuItem value="" disabled >
-                        Seleccione un enfoque
+                    <>
+                      <InputLabel htmlFor="formatted-text-mask-input">Enfoque día {index + 1}</InputLabel>
+                      <Select className={classes.select}
+                        labelId="demo-simple-select-placeholder-label-label"
+                        id="demo-simple-select-placeholder-label"
+                        value={state.routinesFocuses[index] ?? ""}
+                        onChange={onPropRoutinesFocusesChange(index)}
+                        inputProps={{ 'aria-label': 'Without label' }}
+                        displayEmpty
+                      >
+                        <MenuItem value="" disabled >
+                          Seleccione un enfoque
                   </MenuItem>
-                      {
-                        routinesfocus.map((focus) => {
-                          return <MenuItem value={focus.id}>{focus.name}</MenuItem>
-                        })
-                      }
-                    </Select>
+                        {
+                          routinesfocus.map((focus) => {
+                            return <MenuItem value={focus.id}>{focus.name}</MenuItem>
+                          })
+                        }
+                      </Select>
+                    </>
                   )
                 })
               }
