@@ -8,9 +8,6 @@ interface IPersonState {
   numberOfRoutines: number;
   numberOfWeeks: number;
   routinesFocuses: string[];
-  haveInjury: boolean;
-  injuries: string[];
-  injuryNotes: string;
 }
 
 interface IObjective {
@@ -23,12 +20,6 @@ interface IRoutineFocus {
   id: number;
 }
 const routinesfocus: Array<IRoutineFocus> = [{ name: 'Enfoque 1', id: 1 }, { name: 'Enfoque 2', id: 2 }, { name: 'Enfoque 3', id: 3 },];
-
-interface IInjury {
-  name: string;
-  id: number;
-}
-const injuries: Array<IInjury> = [{ name: 'Tobillo Derecho', id: 1 }, { name: 'Tobillo Izquierdo', id: 2 }, { name: 'Rodilla Derecha', id: 3 }, { name: 'Rodilla Izquierda', id: 4 },];
 
 const useStyles = createUseStyles({
   container: {
@@ -47,10 +38,7 @@ export const PersonRecord: React.FunctionComponent = () => {
     objective: '',
     numberOfRoutines: 1,
     numberOfWeeks: 1,
-    routinesFocuses: [],
-    haveInjury: false,
-    injuries: [],
-    injuryNotes: ''
+    routinesFocuses: []
   });
   const routines = Array.from(Array(state.numberOfRoutines).keys());
 
@@ -60,9 +48,6 @@ export const PersonRecord: React.FunctionComponent = () => {
     let value = event.target.value;
     if (propName === 'numberOfRoutines') {
       value = parseInt(value);
-    }
-    if (propName === 'haveInjury') {
-      value = event.target.checked;
     }
     setState({
       ...state,
@@ -80,93 +65,12 @@ export const PersonRecord: React.FunctionComponent = () => {
     });
   }
 
-  const checkRequiredFields = (values: any) => {
-    const requiredFields = ['name', 'lastName', 'email', 'id', 'phoneNumber', 'birthday']
-    requiredFields.forEach(field => {
-      if (!values[field]) {
-        errors[field] = 'Required'
-        setErrors({ ...errors });
-      }else{
-        errors[field] = ''
-      }
-    });
-  }
-
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  };
-
   const classes = useStyles();
   return (
     <>
       <Grid container className={classes.container}>
         <Grid item xs={2}></Grid>
         <Grid item xs={8}>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column} >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.haveInjury}
-                    onChange={onPropChange('haveInjury')}
-                    name="checkedB"
-                    color="primary"
-                  />
-                }
-                label="Lesión"
-              />
-            </Grid>
-          </Grid>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column} >
-              {
-                state.haveInjury && (
-                  <>
-                    <InputLabel id="demo-mutiple-checkbox-label">Lesiones</InputLabel>
-                    <FormControl fullWidth>
-                      <Autocomplete
-                        multiple
-                        id="tags-standard"
-                        options={injuries}
-                        getOptionLabel={(option) => option.name}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            variant="standard"
-                            label="Seleccione lesiones"
-                          />
-                        )}
-                      />
-
-                    </FormControl>
-                  </>
-                )
-              }
-            </Grid>
-            <Grid item xs={6} className={classes.column} >
-              {
-                state.haveInjury && (
-                  <TextField
-                    id="outlined-multiline-static"
-                    label="Notas"
-                    value={state.injuryNotes}
-                    onChange={onPropChange('injuryNotes')}
-                    multiline
-                    rows={3}
-                    variant="outlined"
-                    placeholder="Notas"
-                    fullWidth
-                  />)
-              }
-            </Grid>
-          </Grid>
           <Grid container className={classes.container}>
             <Grid item xs={6} className={classes.column}>
               <InputLabel htmlFor="formatted-text-mask-input">Objetivo</InputLabel>

@@ -91,7 +91,17 @@ export const PersonInformation: React.FunctionComponent = () => {
       });
     }
   }
-
+  const checkRequiredFields = (values: any) => {
+    const requiredFields = ['name', 'lastName', 'email', 'id', 'phoneNumber', 'birthday']
+    requiredFields.forEach(field => {
+      if (!values[field]) {
+        errors[field] = 'Required'
+        setErrors({ ...errors });
+      }else{
+        errors[field] = ''
+      }
+    });
+  }
   return (
     <>
       <Grid container className={classes.container}>

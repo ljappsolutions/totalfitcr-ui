@@ -12,6 +12,7 @@ import Navigation from "./navigation/Navigation";
 import { PersonRecord } from "./person-record/PersonRecord";
 import { PersonInformation } from "./person-record/PersonInformation";
 import { PersonReview } from "./person-record/PersonReview";
+import { PersonInjury } from "./person-record/PersonInjury";
 
 
 
@@ -83,6 +84,7 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
           <Route path="/person-record">
             <PersonInformation />
             <PersonReview />
+            <PersonInjury />
             <PersonRecord />
           </Route>
           <Route path="/dashboard">
