@@ -21,6 +21,28 @@
                         "AttributeDataType": "String",
                         "Mutable": true,
                         "Required": true
+                    },
+                    {
+                        "AttributeDataType": "String",
+                        "Mutable": true,
+                        "Name": "custom:company",
+                        "Required": false
+                    },
+                    {
+                        "AttributeDataType": "String",
+                        "Mutable": true,
+                        "Name": "custom:id",
+                        "Required": false
+                    },
+                    {
+                        "AttributeDataType": "String",
+                        "Mutable": true,
+                        "Name": "id",
+                        "Required": false,
+                        "StringAttributeConstraints": {
+                            "MaxLength" : 15,
+                            "MinLength" : 1
+                        }
                     }
                 ]
             }
@@ -38,7 +60,9 @@
                 "AllowedOAuthFlowsUserPoolClient": true,
                 "ExplicitAuthFlows": [
                     "ALLOW_USER_PASSWORD_AUTH",
-                    "ALLOW_REFRESH_TOKEN_AUTH"
+                    "ALLOW_REFRESH_TOKEN_AUTH",
+                    "ALLOW_ADMIN_USER_PASSWORD_AUTH",
+                    "ALLOW_USER_SRP_AUTH"
                 ],
                 "AllowedOAuthFlows": [
                     "code",
