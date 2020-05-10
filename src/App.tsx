@@ -12,6 +12,11 @@ import Navigation from "./navigation/Navigation";
 import { PersonRecord } from "./person-record/PersonRecord";
 import { Routine } from "./routine/Routine";
 import { CustomBreadcrumbs } from "./shared/components/Breadcrumbs";
+import { PersonInformation } from "./person-record/PersonInformation";
+import { PersonReview } from "./person-record/PersonReview";
+import { PersonInjury } from "./person-record/PersonInjury";
+
+
 
 Amplify.configure(config);
 
@@ -77,7 +82,11 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
           <Route exact path="/">
             <Home />
           </Route>
+          <Route path="/dashboard"></Route>
           <Route path="/person-record">
+            <PersonInformation />
+            <PersonReview />
+            <PersonInjury />
             <PersonRecord />
           </Route>
           <Route path="/dashboard">

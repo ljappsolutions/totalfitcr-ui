@@ -8,6 +8,7 @@ interface IProps
   label: string;
   maxLength?: number;
   variant?: "outlined" | "standard" | "filled";
+  required?: boolean;
 }
 
 export const CustomTextField: FunctionComponent<IProps> = (props: IProps) => {
@@ -16,6 +17,7 @@ export const CustomTextField: FunctionComponent<IProps> = (props: IProps) => {
           value={props.value} onChange={props.onChange} 
           placeholder={props.placeholder} 
           variant={props.variant ?? "outlined"}
-          fullWidth inputProps={{maxLength:props.maxLength }} ></TextField>
+          fullWidth inputProps={{maxLength:props.maxLength }} 
+          required={props.required}></TextField>
   );
 }
