@@ -42,8 +42,8 @@ export const PersonReview: React.FunctionComponent = () => {
   return (
     <>
       <Grid container className={classes.container}>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={8}>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={10}>
         <Grid container className={classes.container}>
             <Grid item xs={6} className={classes.column}>
               <InputLabel htmlFor="formatted-text-mask-input">Estatura</InputLabel>
@@ -101,7 +101,7 @@ export const PersonReview: React.FunctionComponent = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2}></Grid>
+        <Grid item xs={1}></Grid>
       </Grid>
 
     </>

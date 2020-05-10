@@ -41,7 +41,9 @@ export const ExerciseSelector: FunctionComponent<IExerciseSelectorProps> = (prop
       </Grid>
       <Grid container className={classes.filter}>
         <Grid item xs={12}>
-          <CustomTextField placeholder="Filter by name" value={exerciseName}
+          <CustomTextField 
+            placeholder="Filter by name" 
+            value={exerciseName}
             onChange={filterExercises} />
         </Grid>
       </Grid>

@@ -1,5 +1,4 @@
-import { FunctionComponent, useState } from "react";
-import React from "react";
+import React, { FunctionComponent, useState } from "react";
 import { Grid } from "@material-ui/core";
 import { RoutineTemplateSelector } from "./RoutineTemplates";
 import { RoutineDetails } from "./RoutineDetails";
@@ -9,7 +8,7 @@ import shortid from "shortid";
 import { ExerciseSelector } from "./ExerciseSelector";
 import { getArrayFromNumber } from "../shared/utils/arrays";
 
-interface IRoutineProps {
+interface IProps {
 
 }
 
@@ -18,7 +17,7 @@ interface Routine {
   exercises: EditableExercise[];
 }
 
-export const Routine: FunctionComponent<IRoutineProps> = (props) => {
+export const Routine: FunctionComponent<IProps> = (props) => {
   const [routine, setRoutine] = useState<Routine>({
     nbrOfWeeks: 5,
     exercises: [],

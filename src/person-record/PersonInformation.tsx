@@ -47,7 +47,7 @@ export const PersonInformation: React.FunctionComponent = () => {
   const onPropIdChange = (propName: string) => (event: any) => {
     let value = event.target.value;
     if (propName === 'id') {
-      if (event.target.value.length == 9) {
+      if (event.target.value.length === 9) {
         value = event.target.value;
         errors["id"] = '';
       } else {
@@ -78,7 +78,7 @@ export const PersonInformation: React.FunctionComponent = () => {
   const onPropPhoneNumberChange = (propName: string) => (event: any) => {
     let value = event.target.value;
     if (propName === 'phoneNumber') {
-      if (event.target.value.length == 8) {
+      if (event.target.value.length === 8) {
         value = event.target.value;
         errors["phoneNumber"] = '';
       } else {
@@ -105,8 +105,8 @@ export const PersonInformation: React.FunctionComponent = () => {
   return (
     <>
       <Grid container className={classes.container}>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={8}>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={10}>
           <Grid container className={classes.container}>
             <Grid item xs={6} className={classes.column}>
               <CustomTextField label="Nombre" value={state.name} onChange={onPropChange('name')} placeholder="Juan" required={true} ></CustomTextField>
@@ -150,7 +150,7 @@ export const PersonInformation: React.FunctionComponent = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2}></Grid>
+        <Grid item xs={1}></Grid>
       </Grid>
     </>
   );

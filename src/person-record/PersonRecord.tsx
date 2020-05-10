@@ -1,7 +1,6 @@
 import { createUseStyles } from "react-jss";
 import React, { useState } from "react";
-import { Grid, Select, MenuItem, InputAdornment, Input, InputLabel, FormControlLabel, Checkbox, TextField, FormControl } from "@material-ui/core";
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Grid, Select, MenuItem, InputAdornment, Input, InputLabel } from "@material-ui/core";
 
 interface IPersonState {
   objective: string;
@@ -69,8 +68,8 @@ export const PersonRecord: React.FunctionComponent = () => {
   return (
     <>
       <Grid container className={classes.container}>
-        <Grid item xs={2}></Grid>
-        <Grid item xs={8}>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={10}>
           <Grid container className={classes.container}>
             <Grid item xs={6} className={classes.column}>
               <InputLabel htmlFor="formatted-text-mask-input">Objetivo</InputLabel>
@@ -96,7 +95,7 @@ export const PersonRecord: React.FunctionComponent = () => {
                 inputProps={{ className: 'digitsOnly', step: "1", min: 1 }}
                 value={state.numberOfWeeks}
                 onChange={onPropChange('numberOfWeeks')}
-                endAdornment={<InputAdornment position="end">{state.numberOfWeeks == 1 ? 'semana' : 'semanas'}</InputAdornment>}
+                endAdornment={<InputAdornment position="end">{state.numberOfWeeks === 1 ? 'semana' : 'semanas'}</InputAdornment>}
               />
             </Grid>
           </Grid>
@@ -108,7 +107,7 @@ export const PersonRecord: React.FunctionComponent = () => {
                 inputProps={{ className: 'digitsOnly', step: "1", min: 1 }}
                 value={state.numberOfRoutines}
                 onChange={onPropChange('numberOfRoutines')}
-                endAdornment={<InputAdornment position="end">{state.numberOfRoutines == 1 ? 'día' : 'días'}</InputAdornment>}
+                endAdornment={<InputAdornment position="end">{state.numberOfRoutines === 1 ? 'día' : 'días'}</InputAdornment>}
               />
             </Grid>
             <Grid item xs={6} className={classes.column}>
@@ -141,7 +140,7 @@ export const PersonRecord: React.FunctionComponent = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={2}></Grid>
+        <Grid item xs={1}></Grid>
       </Grid>
     </>
   );

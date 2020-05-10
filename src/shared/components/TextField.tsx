@@ -5,7 +5,7 @@ interface IProps
   value: any;
   onChange: any;
   placeholder: string;
-  label: string;
+  label?: string;
   maxLength?: number;
   variant?: "outlined" | "standard" | "filled";
   required?: boolean;

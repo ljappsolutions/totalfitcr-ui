@@ -170,7 +170,8 @@ export const RoutineDetails: FunctionComponent<IRoutineDetailsProps> = (props) =
                     return (
                       <div className={`${classes.cell} ${getColorBackground(index)}`} key={`${exercise.id}-${week}`}>
                         <CustomTextField value={weekInfo?.information}
-                            onChange={updateExerciseWeekInfo(exercise.id, week)} placeholder={"3x10"}
+                            onChange={updateExerciseWeekInfo(exercise.id, week)} 
+                            placeholder={"3x10"}
                             variant="standard"/>
                       </div>
                     );

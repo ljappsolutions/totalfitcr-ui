@@ -11,10 +11,10 @@ import { withOAuth } from 'aws-amplify-react';
 import Navigation from "./navigation/Navigation";
 import { PersonRecord } from "./person-record/PersonRecord";
 import { Routine } from "./routine/Routine";
-import { CustomBreadcrumbs } from "./shared/components/Breadcrumbs";
 import { PersonInformation } from "./person-record/PersonInformation";
 import { PersonReview } from "./person-record/PersonReview";
 import { PersonInjury } from "./person-record/PersonInjury";
+import { GymAppointment } from "./gym-appointment/GymAppointment";
 
 
 
@@ -83,17 +83,11 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
             <Home />
           </Route>
           <Route path="/dashboard"></Route>
-          <Route path="/person-record">
-            <PersonInformation />
-            <PersonReview />
-            <PersonInjury />
-            <PersonRecord />
+          <Route path="/appointment">
+            <GymAppointment />
           </Route>
           <Route path="/dashboard">
             <Dashboard />
-          </Route>
-          <Route path="/routine">
-            <Routine />
           </Route>
         </Switch>
       </Navigation>
@@ -105,7 +99,6 @@ function Home() {
   return (
     <div>
       <h2>Home</h2>
-      <CustomBreadcrumbs numberOfRoutines={4} currentStep={3}></CustomBreadcrumbs>
     </div>
   );
 }
