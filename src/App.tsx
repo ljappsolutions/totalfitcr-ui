@@ -15,6 +15,8 @@ import { PersonInformation } from "./person-record/PersonInformation";
 import { PersonReview } from "./person-record/PersonReview";
 import { PersonInjury } from "./person-record/PersonInjury";
 import { GymAppointment } from "./gym-appointment/GymAppointment";
+import { UserList } from "./user/UserList";
+
 
 
 
@@ -85,6 +87,9 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
           <Route path="/dashboard"></Route>
           <Route path="/appointment">
             <GymAppointment />
+          </Route>
+          <Route path="/users">
+            <UserList />
           </Route>
           <Route path="/dashboard">
             <Dashboard />
