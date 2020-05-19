@@ -9,7 +9,6 @@ import { ExerciseSelector } from "./ExerciseSelector";
 import { getArrayFromNumber } from "../shared/utils/arrays";
 
 interface IProps {
-
 }
 
 interface Routine {
