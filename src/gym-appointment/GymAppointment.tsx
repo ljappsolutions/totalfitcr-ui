@@ -12,12 +12,21 @@ import { IPersonInformationState } from "../shared/models/person/person-informat
 import { IPersonInjury } from "../shared/models/person/person-injury";
 import { IPersonReview } from "../shared/models/person/person-review";
 import { IPersonRecord } from "../shared/models/person/person-record";
+import { IRoutine } from "../shared/models/routine";
+import { createUseStyles } from "react-jss";
 
 interface IProps {
 
 }
 
+const useStyles = createUseStyles({
+  container: {
+    marginTop: "15px"
+  },
+});
+
 export const GymAppointment: FunctionComponent<IProps> = (props) => {
+  const classes = useStyles();
   const [step, setStep] = useState<number>(1);
   const [state, setState] = useState<IAppointment>({
     personInformation: {
@@ -45,7 +54,11 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
       numberOfRoutines: 1,
       numberOfWeeks: 1,
       routinesFocuses: []
-    }
+    },
+    routines: [{
+      exercises: [],
+      nbrOfWeeks: 1
+    }]
   });
   const totalLength = state.personRecord.numberOfRoutines + 2;
 
@@ -80,9 +93,10 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
     )
   }
 
-  const getRoutine = () => {
+  const getRoutine = (step: number) => {
+    const position = step - 2;
     return (
-      <Routine />
+      <Routine routineNbr={position} />
     )
   }
 
@@ -103,14 +117,24 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
   const updatePersonReview = (info: IPersonReview) => {
     setState({
       ...state,
-      personReview: info
+      personReview: info,
     })
   }
 
-  const updatePersonRecord = (info: IPersonRecord) => {
+  const updatePersonRecord = (info: IPersonRecord, routines?: IRoutine[]) => {
     setState({
       ...state,
-      personRecord: info
+      personRecord: info,
+      routines: routines ?? state.routines,
+    })
+  }
+
+  const setRoutine = (position: number, routine: IRoutine) => {
+    const newRoutines = [ ...state.routines ];
+    newRoutines[position] = routine;
+    setState({
+      ...state,
+      routines: newRoutines,
     })
   }
 
@@ -119,13 +143,15 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
     , updatePersonInformation
     , updatePersonInjury
     , updatePersonReview
-    , updatePersonRecord };
+    , updatePersonRecord
+    , setRoutine
+  };
   return (
     <AppointmentContext.Provider value={contextInfo}>
       <CustomBreadcrumbs numberOfRoutines={state.personRecord.numberOfRoutines} currentStep={step}></CustomBreadcrumbs>
-      <Grid container>
+      <Grid container className={classes.container}>
         { step === 1 && getFirstStep() }
-        { isRoutineStep() && getRoutine() }
+        { isRoutineStep() && getRoutine(step) }
       </Grid>
       <Grid container>
         <Grid item xs={12}>

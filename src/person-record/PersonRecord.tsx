@@ -36,13 +36,33 @@ export const PersonRecord: React.FunctionComponent = () => {
 
   const onPropChange = (propName: string) => (event: any) => {
     let value = event.target.value;
-    if (propName === 'numberOfRoutines') {
+    const newRoutines = [ ...state.routines ];
+    if (propName === 'numberOfWeeks') {
       value = value ? parseInt(value) : 0;
+      newRoutines.forEach(x => x.nbrOfWeeks = value);
     }
     updatePersonRecord({
       ...state.personRecord,
       [propName]: value,
-    });
+    }, newRoutines);
+  }
+
+  const changeRoutines = (event: React.ChangeEvent<{value: string}>) => {
+    const value = event.target.value;
+    const routines = value ? parseInt(value) : 0;
+    const newRoutines = [ ...state.routines ];
+    if(routines > state.routines.length) {
+      newRoutines.push({
+        exercises: [],
+        nbrOfWeeks: state.personRecord.numberOfWeeks,
+      })      
+    } else {
+      newRoutines.pop();
+    }
+    updatePersonRecord({
+      ...state.personRecord,
+      numberOfRoutines: routines,
+    }, newRoutines);
   }
 
   const onPropRoutinesFocusesChange = (index: number) => (event: any) => {
@@ -73,7 +93,7 @@ export const PersonRecord: React.FunctionComponent = () => {
             </MenuItem>
                 {
                   objectives.map((objective) => {
-                    return <MenuItem value={objective.name}>{objective.name}</MenuItem>
+                    return <MenuItem value={objective.name} key={objective.name}>{objective.name}</MenuItem>
                   })
                 }
               </Select>
@@ -96,7 +116,7 @@ export const PersonRecord: React.FunctionComponent = () => {
                 type="Number"
                 inputProps={{ className: 'digitsOnly', step: "1", min: 1 }}
                 value={state.personRecord.numberOfRoutines}
-                onChange={onPropChange('numberOfRoutines')}
+                onChange={changeRoutines}
                 endAdornment={<InputAdornment position="end">{state.personRecord.numberOfRoutines === 1 ? 'día' : 'días'}</InputAdornment>}
               />
             </Grid>
@@ -107,8 +127,6 @@ export const PersonRecord: React.FunctionComponent = () => {
                     <>
                       <InputLabel htmlFor="formatted-text-mask-input">Enfoque día {index + 1}</InputLabel>
                       <Select className={classes.select}
-                        labelId="demo-simple-select-placeholder-label-label"
-                        id="demo-simple-select-placeholder-label"
                         value={state.personRecord.routinesFocuses[index] ?? ""}
                         onChange={onPropRoutinesFocusesChange(index)}
                         inputProps={{ 'aria-label': 'Without label' }}
@@ -119,7 +137,7 @@ export const PersonRecord: React.FunctionComponent = () => {
                   </MenuItem>
                         {
                           routinesfocus.map((focus) => {
-                            return <MenuItem value={focus.id}>{focus.name}</MenuItem>
+                            return <MenuItem value={focus.id} key={focus.id}>{focus.name}</MenuItem>
                           })
                         }
                       </Select>
