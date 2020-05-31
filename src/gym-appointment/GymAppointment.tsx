@@ -14,6 +14,7 @@ import { IPersonReview } from "../shared/models/person/person-review";
 import { IPersonRecord } from "../shared/models/person/person-record";
 import { IRoutine } from "../shared/models/routine";
 import { createUseStyles } from "react-jss";
+import { Summary } from "../routine/Summary";
 
 interface IProps {
 
@@ -82,6 +83,10 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
     return step > 1 && step < totalLength;
   }
 
+  const isLastStep = () => {
+    return step === totalLength;
+  }
+
   const getFirstStep = () => {
     return (
       <>
@@ -97,6 +102,12 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
     const position = step - 2;
     return (
       <Routine routineNbr={position} />
+    )
+  }
+
+  const getSummary = () => {
+    return (
+      <Summary />
     )
   }
 
@@ -152,6 +163,7 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
       <Grid container className={classes.container}>
         { step === 1 && getFirstStep() }
         { isRoutineStep() && getRoutine(step) }
+        { isLastStep() && getSummary() }
       </Grid>
       <Grid container>
         <Grid item xs={12}>
