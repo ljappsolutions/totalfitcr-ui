@@ -9,11 +9,6 @@ import { config } from './aws-custom-exports';
 import Amplify, { Hub, Auth } from 'aws-amplify';
 import { withOAuth } from 'aws-amplify-react';
 import Navigation from "./navigation/Navigation";
-import { PersonRecord } from "./person-record/PersonRecord";
-import { Routine } from "./routine/Routine";
-import { PersonInformation } from "./person-record/PersonInformation";
-import { PersonReview } from "./person-record/PersonReview";
-import { PersonInjury } from "./person-record/PersonInjury";
 import { GymAppointment } from "./gym-appointment/GymAppointment";
 import { UserList } from "./user/UserList";
 

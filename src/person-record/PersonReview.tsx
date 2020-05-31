@@ -1,44 +1,35 @@
-import { useState } from "react"
+import { useContext } from "react"
 import { createUseStyles } from "react-jss";
 import React from "react";
 import { Grid, InputLabel, Input, InputAdornment } from "@material-ui/core";
+import AppointmentContext, { IAppointmentContext } from "../shared/contexts/appointment";
 
-interface IPersonReview {
-  height: number;
-  weight: number;
-  fat: number;
-  muscle: number;
-  water: number;
-}
+const useStyles = createUseStyles({
+  container: {
+    "margin": "15px"
+  },
+  column: {
+    padding: "0 5px"
+  },
+  select: {
+    "margin": "15px"
+  }
+})
 
 export const PersonReview: React.FunctionComponent = () => {
-  const [state, setState] = useState<IPersonReview>({
-    height: 0,
-    weight: 0,
-    fat: 0,
-    muscle: 0,
-    water: 0
-  });
+  const context = useContext<IAppointmentContext | null>(AppointmentContext);
+  const classes = useStyles();
+  if (!context) return null;
+  const { state, updatePersonReview } = context;
 
   const onPropChange = (propName: string) => (event: any) => {
     let value = event.target.value;
-    setState({
-      ...state,
+    updatePersonReview({
+      ...state.personReview,
       [propName]: value,
     });
   }
-  const useStyles = createUseStyles({
-    container: {
-      "margin": "15px"
-    },
-    column: {
-      padding: "0 5px"
-    },
-    select: {
-      "margin": "15px"
-    }
-  })
-  const classes = useStyles();
+  
   return (
     <>
       <Grid container className={classes.container}>
@@ -50,7 +41,7 @@ export const PersonReview: React.FunctionComponent = () => {
               <Input
                 type="Number"
                 inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.height}
+                value={state.personReview.height}
                 onChange={onPropChange('height')}
                 endAdornment={<InputAdornment position="end">m</InputAdornment>}
               />
@@ -60,7 +51,7 @@ export const PersonReview: React.FunctionComponent = () => {
               <Input
                 type="Number"
                 inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.weight}
+                value={state.personReview.weight}
                 onChange={onPropChange('weight')}
                 endAdornment={<InputAdornment position="end">Kg</InputAdornment>}
               />
@@ -72,7 +63,7 @@ export const PersonReview: React.FunctionComponent = () => {
               <Input
                 type="Number"
                 inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.fat}
+                value={state.personReview.fat}
                 onChange={onPropChange('fat')}
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
               />
@@ -82,7 +73,7 @@ export const PersonReview: React.FunctionComponent = () => {
               <Input
                 type="Number"
                 inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.muscle}
+                value={state.personReview.muscle}
                 onChange={onPropChange('muscle')}
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
               />
@@ -94,7 +85,7 @@ export const PersonReview: React.FunctionComponent = () => {
               <Input
                 type="Number"
                 inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.water}
+                value={state.personReview.water}
                 onChange={onPropChange('water')}
                 endAdornment={<InputAdornment position="end">%</InputAdornment>}
               />

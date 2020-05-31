@@ -1,45 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { createUseStyles } from "react-jss";
 import { Grid, TextField } from "@material-ui/core";
 import { CustomTextField } from "../shared/components/TextField";
+import AppointmentContext, { IAppointmentContext } from "../shared/contexts/appointment";
 
-interface IPersonInformationState {
-  id: string;
-  name: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  birthday: string;
-}
+const useStyles = createUseStyles({
+  container: {
+    "margin": "15px"
+  },
+  column: {
+    padding: "0 5px"
+  },
+  select: {
+    "margin": "15px"
+  }
+})
 
 export const PersonInformation: React.FunctionComponent = () => {
-  const [state, setState] = useState<IPersonInformationState>({
-    id: '',
-    name: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    birthday: '',
-  });
+  const context = useContext<IAppointmentContext | null>(AppointmentContext);
   const [errors, setErrors] = useState<any>({});
-
-  const useStyles = createUseStyles({
-    container: {
-      "margin": "15px"
-    },
-    column: {
-      padding: "0 5px"
-    },
-    select: {
-      "margin": "15px"
-    }
-  })
   const classes = useStyles();
+  if (!context) return null;
+  const { state, updatePersonInformation } = context;
 
   const onPropChange = (propName: string) => (event: any) => {
     let value = event.target.value;
-    setState({
-      ...state,
+    updatePersonInformation({
+      ...state.personInformation,
       [propName]: value,
     });
   }
@@ -54,8 +41,8 @@ export const PersonInformation: React.FunctionComponent = () => {
         errors["id"] = "Cédula invalida."
         setErrors({ ...errors });
       }
-      setState({
-        ...state,
+      updatePersonInformation({
+        ...state.personInformation,
         [propName]: value,
       });
     }
@@ -69,9 +56,9 @@ export const PersonInformation: React.FunctionComponent = () => {
     } else {
       errors["email"] = '';
     }
-    setState({
-      ...state,
-      email: value
+    updatePersonInformation({
+      ...state.personInformation,
+      email: value,
     });
   }
 
@@ -85,8 +72,8 @@ export const PersonInformation: React.FunctionComponent = () => {
         errors["phoneNumber"] = "Número invalido."
         setErrors({ ...errors });
       }
-      setState({
-        ...state,
+      updatePersonInformation({
+        ...state.personInformation,
         [propName]: value,
       });
     }
@@ -97,7 +84,7 @@ export const PersonInformation: React.FunctionComponent = () => {
       if (!values[field]) {
         errors[field] = 'Required'
         setErrors({ ...errors });
-      }else{
+      } else {
         errors[field] = ''
       }
     });
@@ -109,27 +96,27 @@ export const PersonInformation: React.FunctionComponent = () => {
         <Grid item xs={10}>
           <Grid container className={classes.container}>
             <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Nombre" value={state.name} onChange={onPropChange('name')} placeholder="Juan" required={true} ></CustomTextField>
+              <CustomTextField label="Nombre" value={state.personInformation.name} onChange={onPropChange('name')} placeholder="Juan" required={true} ></CustomTextField>
               <span style={{ color: "red" }}>{errors["name"]}</span>
             </Grid>
             <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Apellidos" value={state.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero" required={true} ></CustomTextField>
+              <CustomTextField label="Apellidos" value={state.personInformation.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero" required={true} ></CustomTextField>
               <span style={{ color: "red" }}>{errors["lastName"]}</span>
             </Grid>
           </Grid>
           <Grid container className={classes.container}>
             <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Cédula" value={state.id} onChange={onPropIdChange('id')} placeholder="101000100" maxLength={9} required={true}  ></CustomTextField>
+              <CustomTextField label="Cédula" value={state.personInformation.id} onChange={onPropIdChange('id')} placeholder="101000100" maxLength={9} required={true}  ></CustomTextField>
               <span style={{ color: "red" }}>{errors["id"]}</span>
             </Grid>
             <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Correo" value={state.email} onChange={onPropEmailChange} placeholder="sample@mail.com" required={true} ></CustomTextField>
+              <CustomTextField label="Correo" value={state.personInformation.email} onChange={onPropEmailChange} placeholder="sample@mail.com" required={true} ></CustomTextField>
               <span style={{ color: "red" }}>{errors["email"]}</span>
             </Grid>
           </Grid>
           <Grid container className={classes.container}>
             <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Número de Celular" value={state.phoneNumber} onChange={onPropPhoneNumberChange('phoneNumber')} placeholder="+506" maxLength={8} required={true} ></CustomTextField>
+              <CustomTextField label="Número de Celular" value={state.personInformation.phoneNumber} onChange={onPropPhoneNumberChange('phoneNumber')} placeholder="+506" maxLength={8} required={true} ></CustomTextField>
               <span style={{ color: "red" }}>{errors["phoneNumber"]}</span>
             </Grid>
             <Grid item xs={6} className={classes.column}>
@@ -138,7 +125,7 @@ export const PersonInformation: React.FunctionComponent = () => {
                 label="Birthday"
                 type="date"
                 defaultValue="2017-05-24"
-                value={state.birthday}
+                value={state.personInformation.birthday}
                 onChange={onPropChange('birthday')}
                 InputLabelProps={{
                   shrink: true,

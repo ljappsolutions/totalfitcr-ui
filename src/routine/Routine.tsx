@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useContext } from "react";
 import { Grid } from "@material-ui/core";
 import { RoutineTemplateSelector } from "./RoutineTemplates";
 import { RoutineDetails } from "./RoutineDetails";
@@ -7,21 +7,17 @@ import { EditableExercise, SeriesDetails, Exercise } from "../shared/models/exer
 import shortid from "shortid";
 import { ExerciseSelector } from "./ExerciseSelector";
 import { getArrayFromNumber } from "../shared/utils/arrays";
+import AppointmentContext, { IAppointmentContext } from "../shared/contexts/appointment";
 
 interface IProps {
-
-}
-
-interface Routine {
-  nbrOfWeeks: number;
-  exercises: EditableExercise[];
+  routineNbr: number;
 }
 
 export const Routine: FunctionComponent<IProps> = (props) => {
-  const [routine, setRoutine] = useState<Routine>({
-    nbrOfWeeks: 5,
-    exercises: [],
-  });
+  const context = useContext<IAppointmentContext | null>(AppointmentContext);
+  if (!context) return null;
+  const { state, setRoutine } = context;
+  const routine = state.routines[props.routineNbr];
 
   const includeFromTemplate = (template: RoutineTemplate | Exercise) => {
     const templateCasted = template as RoutineTemplate;
@@ -48,7 +44,7 @@ export const Routine: FunctionComponent<IProps> = (props) => {
   }
 
   const addExercises = (exercises: EditableExercise[]) => {
-    setRoutine({
+    setRoutine(props.routineNbr, {
       ...routine,
       exercises: [
         ...routine.exercises,
@@ -69,7 +65,7 @@ export const Routine: FunctionComponent<IProps> = (props) => {
   }
 
   const onDeleteExercises = (ids: string[]) => {
-    setRoutine({
+    setRoutine(props.routineNbr, {
       ...routine,
       exercises: [
         ...routine.exercises.filter(x => ids.indexOf(x.id) >= 0),

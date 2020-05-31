@@ -1,13 +1,7 @@
 import { createUseStyles } from "react-jss";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Grid, Select, MenuItem, InputAdornment, Input, InputLabel } from "@material-ui/core";
-
-interface IPersonState {
-  objective: string;
-  numberOfRoutines: number;
-  numberOfWeeks: number;
-  routinesFocuses: string[];
-}
+import AppointmentContext, { IAppointmentContext } from "../shared/contexts/appointment";
 
 interface IObjective {
   name: string;
@@ -33,38 +27,54 @@ const useStyles = createUseStyles({
 })
 
 export const PersonRecord: React.FunctionComponent = () => {
-  const [state, setState] = useState<IPersonState>({
-    objective: '',
-    numberOfRoutines: 1,
-    numberOfWeeks: 1,
-    routinesFocuses: []
-  });
-  const routines = Array.from(Array(state.numberOfRoutines).keys());
-
+  const context = useContext<IAppointmentContext | null>(AppointmentContext);
+  const classes = useStyles();
   const [errors, setErrors] = useState<any>({});
+  if (!context) return null;
+  const { state, updatePersonRecord } = context;
+  const routines = Array.from(Array(state.personRecord.numberOfRoutines).keys());
 
   const onPropChange = (propName: string) => (event: any) => {
     let value = event.target.value;
-    if (propName === 'numberOfRoutines') {
-      value = parseInt(value);
+    const newRoutines = [ ...state.routines ];
+    if (propName === 'numberOfWeeks') {
+      value = value ? parseInt(value) : 0;
+      newRoutines.forEach(x => x.nbrOfWeeks = value);
     }
-    setState({
-      ...state,
+    updatePersonRecord({
+      ...state.personRecord,
       [propName]: value,
-    });
+    }, newRoutines);
+  }
+
+  const changeRoutines = (event: React.ChangeEvent<{value: string}>) => {
+    const value = event.target.value;
+    const routines = value ? parseInt(value) : 0;
+    const newRoutines = [ ...state.routines ];
+    if(routines > state.routines.length) {
+      newRoutines.push({
+        exercises: [],
+        nbrOfWeeks: state.personRecord.numberOfWeeks,
+      })      
+    } else {
+      newRoutines.pop();
+    }
+    updatePersonRecord({
+      ...state.personRecord,
+      numberOfRoutines: routines,
+    }, newRoutines);
   }
 
   const onPropRoutinesFocusesChange = (index: number) => (event: any) => {
     let value = event.target.value;
-    const previousValues = state.routinesFocuses;
+    const previousValues = state.personRecord.routinesFocuses;
     previousValues[index] = value;
-    setState({
-      ...state,
+    updatePersonRecord({
+      ...state.personRecord,
       routinesFocuses: previousValues
     });
   }
 
-  const classes = useStyles();
   return (
     <>
       <Grid container className={classes.container}>
@@ -74,7 +84,7 @@ export const PersonRecord: React.FunctionComponent = () => {
             <Grid item xs={6} className={classes.column}>
               <InputLabel htmlFor="formatted-text-mask-input">Objetivo</InputLabel>
               <Select
-                value={state.objective}
+                value={state.personRecord.objective}
                 onChange={onPropChange('objective')}
                 inputProps={{ 'aria-label': 'Without label' }}
                 displayEmpty>
@@ -83,7 +93,7 @@ export const PersonRecord: React.FunctionComponent = () => {
             </MenuItem>
                 {
                   objectives.map((objective) => {
-                    return <MenuItem value={objective.name}>{objective.name}</MenuItem>
+                    return <MenuItem value={objective.name} key={objective.name}>{objective.name}</MenuItem>
                   })
                 }
               </Select>
@@ -93,9 +103,9 @@ export const PersonRecord: React.FunctionComponent = () => {
               <Input
                 type="Number"
                 inputProps={{ className: 'digitsOnly', step: "1", min: 1 }}
-                value={state.numberOfWeeks}
+                value={state.personRecord.numberOfWeeks}
                 onChange={onPropChange('numberOfWeeks')}
-                endAdornment={<InputAdornment position="end">{state.numberOfWeeks === 1 ? 'semana' : 'semanas'}</InputAdornment>}
+                endAdornment={<InputAdornment position="end">{state.personRecord.numberOfWeeks === 1 ? 'semana' : 'semanas'}</InputAdornment>}
               />
             </Grid>
           </Grid>
@@ -105,9 +115,9 @@ export const PersonRecord: React.FunctionComponent = () => {
               <Input
                 type="Number"
                 inputProps={{ className: 'digitsOnly', step: "1", min: 1 }}
-                value={state.numberOfRoutines}
-                onChange={onPropChange('numberOfRoutines')}
-                endAdornment={<InputAdornment position="end">{state.numberOfRoutines === 1 ? 'día' : 'días'}</InputAdornment>}
+                value={state.personRecord.numberOfRoutines}
+                onChange={changeRoutines}
+                endAdornment={<InputAdornment position="end">{state.personRecord.numberOfRoutines === 1 ? 'día' : 'días'}</InputAdornment>}
               />
             </Grid>
             <Grid item xs={6} className={classes.column}>
@@ -117,9 +127,7 @@ export const PersonRecord: React.FunctionComponent = () => {
                     <>
                       <InputLabel htmlFor="formatted-text-mask-input">Enfoque día {index + 1}</InputLabel>
                       <Select className={classes.select}
-                        labelId="demo-simple-select-placeholder-label-label"
-                        id="demo-simple-select-placeholder-label"
-                        value={state.routinesFocuses[index] ?? ""}
+                        value={state.personRecord.routinesFocuses[index] ?? ""}
                         onChange={onPropRoutinesFocusesChange(index)}
                         inputProps={{ 'aria-label': 'Without label' }}
                         displayEmpty
@@ -129,7 +137,7 @@ export const PersonRecord: React.FunctionComponent = () => {
                   </MenuItem>
                         {
                           routinesfocus.map((focus) => {
-                            return <MenuItem value={focus.id}>{focus.name}</MenuItem>
+                            return <MenuItem value={focus.id} key={focus.id}>{focus.name}</MenuItem>
                           })
                         }
                       </Select>
