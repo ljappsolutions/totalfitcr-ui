@@ -18,6 +18,12 @@ const useStyles = createUseStyles({
   }
 });
 
+interface IPersonInjury {
+  haveInjury: boolean;
+  injuries: string[];
+  injuryNotes: string;
+}
+
 const injuries: Array<IInjury> = [{ name: 'Tobillo Derecho', id: 1 }, { name: 'Tobillo Izquierdo', id: 2 }, { name: 'Rodilla Derecha', id: 3 }, { name: 'Rodilla Izquierda', id: 4 },];
 
 export const PersonInjury: React.FunctionComponent = () => {

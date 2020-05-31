@@ -10,6 +10,8 @@ import Amplify, { Hub, Auth } from 'aws-amplify';
 import { withOAuth } from 'aws-amplify-react';
 import Navigation from "./navigation/Navigation";
 import { GymAppointment } from "./gym-appointment/GymAppointment";
+import { UserList } from "./user/UserList";
+
 
 
 
@@ -80,6 +82,9 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
           <Route path="/dashboard"></Route>
           <Route path="/appointment">
             <GymAppointment />
+          </Route>
+          <Route path="/users">
+            <UserList />
           </Route>
           <Route path="/dashboard">
             <Dashboard />
