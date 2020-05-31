@@ -29,72 +29,65 @@ export const PersonReview: React.FunctionComponent = () => {
       [propName]: value,
     });
   }
-  
+
   return (
     <>
       <Grid container className={classes.container}>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={10}>
-        <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column}>
-              <InputLabel htmlFor="formatted-text-mask-input">Estatura</InputLabel>
-              <Input
-                type="Number"
-                inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.personReview.height}
-                onChange={onPropChange('height')}
-                endAdornment={<InputAdornment position="end">m</InputAdornment>}
-              />
-            </Grid>
-            <Grid item xs={6} className={classes.column}>
-              <InputLabel htmlFor="formatted-text-mask-input">Peso</InputLabel>
-              <Input
-                type="Number"
-                inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.personReview.weight}
-                onChange={onPropChange('weight')}
-                endAdornment={<InputAdornment position="end">Kg</InputAdornment>}
-              />
-            </Grid>
-          </Grid>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column}>
-              <InputLabel htmlFor="formatted-text-mask-input">Grasa Corporal</InputLabel>
-              <Input
-                type="Number"
-                inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.personReview.fat}
-                onChange={onPropChange('fat')}
-                endAdornment={<InputAdornment position="end">%</InputAdornment>}
-              />
-            </Grid>
-            <Grid item xs={6} className={classes.column}>
-              <InputLabel htmlFor="formatted-text-mask-input">Musculo</InputLabel>
-              <Input
-                type="Number"
-                inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.personReview.muscle}
-                onChange={onPropChange('muscle')}
-                endAdornment={<InputAdornment position="end">%</InputAdornment>}
-              />
-            </Grid>
-          </Grid>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column}>
-              <InputLabel htmlFor="formatted-text-mask-input">Agua Corporal</InputLabel>
-              <Input
-                type="Number"
-                inputProps={{ className: 'digitsOnly', step: "0.1" }}
-                value={state.personReview.water}
-                onChange={onPropChange('water')}
-                endAdornment={<InputAdornment position="end">%</InputAdornment>}
-              />
-            </Grid>
-          </Grid>
+        <Grid item xs={6} className={classes.column}>
+          <InputLabel htmlFor="formatted-text-mask-input">Estatura</InputLabel>
+          <Input
+            type="Number"
+            inputProps={{ className: 'digitsOnly', step: "0.1" }}
+            value={state.personReview.height}
+            onChange={onPropChange('height')}
+            endAdornment={<InputAdornment position="end">m</InputAdornment>}
+          />
         </Grid>
-        <Grid item xs={1}></Grid>
+        <Grid item xs={6} className={classes.column}>
+          <InputLabel htmlFor="formatted-text-mask-input">Peso</InputLabel>
+          <Input
+            type="Number"
+            inputProps={{ className: 'digitsOnly', step: "0.1" }}
+            value={state.personReview.weight}
+            onChange={onPropChange('weight')}
+            endAdornment={<InputAdornment position="end">Kg</InputAdornment>}
+          />
+        </Grid>
       </Grid>
-
+      <Grid container className={classes.container}>
+        <Grid item xs={6} className={classes.column}>
+          <InputLabel htmlFor="formatted-text-mask-input">Grasa Corporal</InputLabel>
+          <Input
+            type="Number"
+            inputProps={{ className: 'digitsOnly', step: "0.1" }}
+            value={state.personReview.fat}
+            onChange={onPropChange('fat')}
+            endAdornment={<InputAdornment position="end">%</InputAdornment>}
+          />
+        </Grid>
+        <Grid item xs={6} className={classes.column}>
+          <InputLabel htmlFor="formatted-text-mask-input">Musculo</InputLabel>
+          <Input
+            type="Number"
+            inputProps={{ className: 'digitsOnly', step: "0.1" }}
+            value={state.personReview.muscle}
+            onChange={onPropChange('muscle')}
+            endAdornment={<InputAdornment position="end">%</InputAdornment>}
+          />
+        </Grid>
+      </Grid>
+      <Grid container className={classes.container}>
+        <Grid item xs={6} className={classes.column}>
+          <InputLabel htmlFor="formatted-text-mask-input">Agua Corporal</InputLabel>
+          <Input
+            type="Number"
+            inputProps={{ className: 'digitsOnly', step: "0.1" }}
+            value={state.personReview.water}
+            onChange={onPropChange('water')}
+            endAdornment={<InputAdornment position="end">%</InputAdornment>}
+          />
+        </Grid>
+      </Grid>
     </>
   )
 }

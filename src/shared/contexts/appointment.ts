@@ -6,6 +6,39 @@ import { IPersonReview } from "../models/person/person-review";
 import { IPersonRecord } from "../models/person/person-record";
 import { IRoutine } from "../models/routine";
 
+export const defaultValue: IAppointment = {
+  personInformation: {
+    id: '',
+    name: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    birthday: '',
+  },
+  personInjury: {
+    haveInjury: false,
+    injuries: [],
+    injuryNotes: ''
+  },
+  personReview: {
+    height: 0,
+    weight: 0,
+    fat: 0,
+    muscle: 0,
+    water: 0
+  },
+  personRecord: {
+    objective: '',
+    numberOfRoutines: 1,
+    numberOfWeeks: 1,
+    routinesFocuses: []
+  },
+  routines: [{
+    exercises: [],
+    nbrOfWeeks: 1
+  }]
+}
+
 export interface IAppointmentContext {
   state: IAppointment;
   updatePersonInformation: (info: IPersonInformationState) => void;

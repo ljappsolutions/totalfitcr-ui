@@ -57,7 +57,7 @@ export const ExerciseSelector: FunctionComponent<IExerciseSelectorProps> = (prop
                     <TemplateBox template={template}
                       key={template.name}
                       selectable={true} 
-                      onDoubleClick={selectExercise}/>
+                      onDoubleClick={selectExercise} />
                   ))
                 }
               </ul>

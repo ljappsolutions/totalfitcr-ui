@@ -36,7 +36,7 @@ export const PersonRecord: React.FunctionComponent = () => {
 
   const onPropChange = (propName: string) => (event: any) => {
     let value = event.target.value;
-    const newRoutines = [ ...state.routines ];
+    const newRoutines = [...state.routines];
     if (propName === 'numberOfWeeks') {
       value = value ? parseInt(value) : 0;
       newRoutines.forEach(x => x.nbrOfWeeks = value);
@@ -47,15 +47,15 @@ export const PersonRecord: React.FunctionComponent = () => {
     }, newRoutines);
   }
 
-  const changeRoutines = (event: React.ChangeEvent<{value: string}>) => {
+  const changeRoutines = (event: React.ChangeEvent<{ value: string }>) => {
     const value = event.target.value;
     const routines = value ? parseInt(value) : 0;
-    const newRoutines = [ ...state.routines ];
-    if(routines > state.routines.length) {
+    const newRoutines = [...state.routines];
+    if (routines > state.routines.length) {
       newRoutines.push({
         exercises: [],
         nbrOfWeeks: state.personRecord.numberOfWeeks,
-      })      
+      })
     } else {
       newRoutines.pop();
     }
@@ -78,77 +78,71 @@ export const PersonRecord: React.FunctionComponent = () => {
   return (
     <>
       <Grid container className={classes.container}>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={10}>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column}>
-              <InputLabel htmlFor="formatted-text-mask-input">Objetivo</InputLabel>
-              <Select
-                value={state.personRecord.objective}
-                onChange={onPropChange('objective')}
-                inputProps={{ 'aria-label': 'Without label' }}
-                displayEmpty>
-                <MenuItem value="" disabled >
-                  Seleccione un objetivo
+        <Grid item xs={6} className={classes.column}>
+          <InputLabel htmlFor="formatted-text-mask-input">Objetivo</InputLabel>
+          <Select
+            value={state.personRecord.objective}
+            onChange={onPropChange('objective')}
+            inputProps={{ 'aria-label': 'Without label' }}
+            displayEmpty>
+            <MenuItem value="" disabled >
+              Seleccione un objetivo
             </MenuItem>
-                {
-                  objectives.map((objective) => {
-                    return <MenuItem value={objective.name} key={objective.name}>{objective.name}</MenuItem>
-                  })
-                }
-              </Select>
-            </Grid>
-            <Grid item xs={6} className={classes.column}>
-              <InputLabel htmlFor="formatted-text-mask-input">Cantidad de semanas</InputLabel>
-              <Input
-                type="Number"
-                inputProps={{ className: 'digitsOnly', step: "1", min: 1 }}
-                value={state.personRecord.numberOfWeeks}
-                onChange={onPropChange('numberOfWeeks')}
-                endAdornment={<InputAdornment position="end">{state.personRecord.numberOfWeeks === 1 ? 'semana' : 'semanas'}</InputAdornment>}
-              />
-            </Grid>
-          </Grid>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column}>
-              <InputLabel htmlFor="formatted-text-mask-input">Cantidad de rutinas</InputLabel>
-              <Input
-                type="Number"
-                inputProps={{ className: 'digitsOnly', step: "1", min: 1 }}
-                value={state.personRecord.numberOfRoutines}
-                onChange={changeRoutines}
-                endAdornment={<InputAdornment position="end">{state.personRecord.numberOfRoutines === 1 ? 'día' : 'días'}</InputAdornment>}
-              />
-            </Grid>
-            <Grid item xs={6} className={classes.column}>
-              {
-                routines.map((routine, index) => {
-                  return (
-                    <>
-                      <InputLabel htmlFor="formatted-text-mask-input">Enfoque día {index + 1}</InputLabel>
-                      <Select className={classes.select}
-                        value={state.personRecord.routinesFocuses[index] ?? ""}
-                        onChange={onPropRoutinesFocusesChange(index)}
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        displayEmpty
-                      >
-                        <MenuItem value="" disabled >
-                          Seleccione un enfoque
-                  </MenuItem>
-                        {
-                          routinesfocus.map((focus) => {
-                            return <MenuItem value={focus.id} key={focus.id}>{focus.name}</MenuItem>
-                          })
-                        }
-                      </Select>
-                    </>
-                  )
-                })
-              }
-            </Grid>
-          </Grid>
+            {
+              objectives.map((objective) => {
+                return <MenuItem value={objective.name} key={objective.name}>{objective.name}</MenuItem>
+              })
+            }
+          </Select>
         </Grid>
-        <Grid item xs={1}></Grid>
+        <Grid item xs={6} className={classes.column}>
+          <InputLabel htmlFor="formatted-text-mask-input">Cantidad de semanas</InputLabel>
+          <Input
+            type="Number"
+            inputProps={{ className: 'digitsOnly', step: "1", min: 1 }}
+            value={state.personRecord.numberOfWeeks}
+            onChange={onPropChange('numberOfWeeks')}
+            endAdornment={<InputAdornment position="end">{state.personRecord.numberOfWeeks === 1 ? 'semana' : 'semanas'}</InputAdornment>}
+          />
+        </Grid>
+      </Grid>
+      <Grid container className={classes.container}>
+        <Grid item xs={6} className={classes.column}>
+          <InputLabel htmlFor="formatted-text-mask-input">Cantidad de rutinas</InputLabel>
+          <Input
+            type="Number"
+            inputProps={{ className: 'digitsOnly', step: "1", min: 1 }}
+            value={state.personRecord.numberOfRoutines}
+            onChange={changeRoutines}
+            endAdornment={<InputAdornment position="end">{state.personRecord.numberOfRoutines === 1 ? 'día' : 'días'}</InputAdornment>}
+          />
+        </Grid>
+        <Grid item xs={6} className={classes.column}>
+          {
+            routines.map((routine, index) => {
+              return (
+                <div key={routine}>
+                  <InputLabel htmlFor="formatted-text-mask-input">Enfoque día {index + 1}</InputLabel>
+                  <Select className={classes.select}
+                    value={state.personRecord.routinesFocuses[index] ?? ""}
+                    onChange={onPropRoutinesFocusesChange(index)}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    displayEmpty
+                  >
+                    <MenuItem value="" disabled >
+                      Seleccione un enfoque
+                  </MenuItem>
+                    {
+                      routinesfocus.map((focus) => {
+                        return <MenuItem value={focus.id} key={focus.id}>{focus.name}</MenuItem>
+                      })
+                    }
+                  </Select>
+                </div>
+              )
+            })
+          }
+        </Grid>
       </Grid>
     </>
   );
