@@ -6,7 +6,7 @@ import { PersonReview } from "../person-record/PersonReview";
 import { PersonInjury } from "../person-record/PersonInjury";
 import { PersonRecord } from "../person-record/PersonRecord";
 import { Routine } from "../routine/Routine";
-import AppointmentContext from "../shared/contexts/appointment";
+import AppointmentContext, { defaultValue } from "../shared/contexts/appointment";
 import { IAppointment } from "../shared/models/appointment";
 import { IPersonInformationState } from "../shared/models/person/person-information";
 import { IPersonInjury } from "../shared/models/person/person-injury";
@@ -15,6 +15,7 @@ import { IPersonRecord } from "../shared/models/person/person-record";
 import { IRoutine } from "../shared/models/routine";
 import { createUseStyles } from "react-jss";
 import { Summary } from "../routine/Summary";
+import { UserSearch } from "../shared/components/UserSearch";
 
 interface IProps {
 
@@ -22,45 +23,17 @@ interface IProps {
 
 const useStyles = createUseStyles({
   container: {
-    marginTop: "15px"
+    margin: "15px"
+  },
+  column: {
+    padding: "0 5px"
   },
 });
 
 export const GymAppointment: FunctionComponent<IProps> = (props) => {
   const classes = useStyles();
   const [step, setStep] = useState<number>(1);
-  const [state, setState] = useState<IAppointment>({
-    personInformation: {
-      id: '',
-      name: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      birthday: '',
-    },
-    personInjury: {
-      haveInjury: false,
-      injuries: [],
-      injuryNotes: ''
-    },
-    personReview: {
-      height: 0,
-      weight: 0,
-      fat: 0,
-      muscle: 0,
-      water: 0
-    },
-    personRecord: {
-      objective: '',
-      numberOfRoutines: 1,
-      numberOfWeeks: 1,
-      routinesFocuses: []
-    },
-    routines: [{
-      exercises: [],
-      nbrOfWeeks: 1
-    }]
-  });
+  const [state, setState] = useState<IAppointment>(defaultValue);
   const totalLength = state.personRecord.numberOfRoutines + 2;
 
   const moveStepForward = () => {
@@ -90,10 +63,21 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
   const getFirstStep = () => {
     return (
       <>
-        <PersonInformation />
-        <PersonReview />
-        <PersonInjury />
-        <PersonRecord />
+        <Grid container>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={10}>
+            <Grid container className={classes.container}>
+              <Grid item xs={6} className={classes.column}>
+                <UserSearch selectUser={selectUser} user={state.personInformation} />
+              </Grid>
+            </Grid>
+            <PersonInformation />
+            <PersonReview />
+            <PersonInjury />
+            <PersonRecord />
+          </Grid>
+          <Grid item xs={1}></Grid>
+        </Grid>
       </>
     )
   }
@@ -109,6 +93,15 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
     return (
       <Summary />
     )
+  }
+
+  const selectUser = (userInfo: IPersonInformationState) => {
+    setState({
+      ...state,
+      personInformation: {
+        ...userInfo
+      }
+    })
   }
 
   const updatePersonInformation = (info: IPersonInformationState) => {

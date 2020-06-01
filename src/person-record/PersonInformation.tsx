@@ -92,52 +92,46 @@ export const PersonInformation: React.FunctionComponent = () => {
   return (
     <>
       <Grid container className={classes.container}>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={10}>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Nombre" value={state.personInformation.name} onChange={onPropChange('name')} placeholder="Juan" required={true} ></CustomTextField>
-              <span style={{ color: "red" }}>{errors["name"]}</span>
-            </Grid>
-            <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Apellidos" value={state.personInformation.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero" required={true} ></CustomTextField>
-              <span style={{ color: "red" }}>{errors["lastName"]}</span>
-            </Grid>
-          </Grid>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Cédula" value={state.personInformation.id} onChange={onPropIdChange('id')} placeholder="101000100" maxLength={9} required={true}  ></CustomTextField>
-              <span style={{ color: "red" }}>{errors["id"]}</span>
-            </Grid>
-            <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Correo" value={state.personInformation.email} onChange={onPropEmailChange} placeholder="sample@mail.com" required={true} ></CustomTextField>
-              <span style={{ color: "red" }}>{errors["email"]}</span>
-            </Grid>
-          </Grid>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column}>
-              <CustomTextField label="Número de Celular" value={state.personInformation.phoneNumber} onChange={onPropPhoneNumberChange('phoneNumber')} placeholder="+506" maxLength={8} required={true} ></CustomTextField>
-              <span style={{ color: "red" }}>{errors["phoneNumber"]}</span>
-            </Grid>
-            <Grid item xs={6} className={classes.column}>
-              <TextField
-                id="date"
-                label="Birthday"
-                type="date"
-                defaultValue="2017-05-24"
-                value={state.personInformation.birthday}
-                onChange={onPropChange('birthday')}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-                required
-              />
-              <span style={{ color: "red" }}>{errors["birthday"]}</span>
-            </Grid>
-          </Grid>
+        <Grid item xs={6} className={classes.column}>
+          <CustomTextField label="Nombre" value={state.personInformation.name} onChange={onPropChange('name')} placeholder="Juan" required={true} ></CustomTextField>
+          <span style={{ color: "red" }}>{errors["name"]}</span>
         </Grid>
-        <Grid item xs={1}></Grid>
+        <Grid item xs={6} className={classes.column}>
+          <CustomTextField label="Apellidos" value={state.personInformation.lastName} onChange={onPropChange('lastName')} placeholder="Cambronero" required={true} ></CustomTextField>
+          <span style={{ color: "red" }}>{errors["lastName"]}</span>
+        </Grid>
+      </Grid>
+      <Grid container className={classes.container}>
+        <Grid item xs={6} className={classes.column}>
+          <CustomTextField label="Cédula" value={state.personInformation.id} onChange={onPropIdChange('id')} placeholder="101000100" maxLength={9} required={true}  ></CustomTextField>
+          <span style={{ color: "red" }}>{errors["id"]}</span>
+        </Grid>
+        <Grid item xs={6} className={classes.column}>
+          <CustomTextField label="Correo" value={state.personInformation.email} onChange={onPropEmailChange} placeholder="sample@mail.com" required={true} ></CustomTextField>
+          <span style={{ color: "red" }}>{errors["email"]}</span>
+        </Grid>
+      </Grid>
+      <Grid container className={classes.container}>
+        <Grid item xs={6} className={classes.column}>
+          <CustomTextField label="Número de Celular" value={state.personInformation.phoneNumber} onChange={onPropPhoneNumberChange('phoneNumber')} placeholder="+506" maxLength={8} required={true} ></CustomTextField>
+          <span style={{ color: "red" }}>{errors["phoneNumber"]}</span>
+        </Grid>
+        <Grid item xs={6} className={classes.column}>
+          <TextField
+            id="date"
+            label="Birthday"
+            type="date"
+            defaultValue="2017-05-24"
+            value={state.personInformation.birthday}
+            onChange={onPropChange('birthday')}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            fullWidth
+            required
+          />
+          <span style={{ color: "red" }}>{errors["birthday"]}</span>
+        </Grid>
       </Grid>
     </>
   );

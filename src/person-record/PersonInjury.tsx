@@ -39,68 +39,62 @@ export const PersonInjury: React.FunctionComponent = () => {
   return (
     <>
       <Grid container className={classes.container}>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={10}>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column} >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.personInjury.haveInjury}
-                    onChange={onPropChange('haveInjury')}
-                    name="checkedB"
-                    color="primary"
-                  />
-                }
-                label="Lesión"
+        <Grid item xs={6} className={classes.column} >
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={state.personInjury.haveInjury}
+                onChange={onPropChange('haveInjury')}
+                name="checkedB"
+                color="primary"
               />
-            </Grid>
-          </Grid>
-          <Grid container className={classes.container}>
-            <Grid item xs={6} className={classes.column} >
-              {
-                state.personInjury.haveInjury && (
-                  <>
-                    <InputLabel id="demo-mutiple-checkbox-label">Lesiones</InputLabel>
-                    <FormControl fullWidth>
-                      <Autocomplete
-                        multiple
-                        id="tags-standard"
-                        options={injuries}
-                        getOptionLabel={(option) => option.name}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            variant="standard"
-                            label="Seleccione lesiones"
-                          />
-                        )}
-                      />
-
-                    </FormControl>
-                  </>
-                )
-              }
-            </Grid>
-            <Grid item xs={6} className={classes.column} >
-              {
-                state.personInjury.haveInjury && (
-                  <TextField
-                    id="outlined-multiline-static"
-                    label="Notas"
-                    value={state.personInjury.injuryNotes}
-                    onChange={onPropChange('injuryNotes')}
-                    multiline
-                    rows={3}
-                    variant="outlined"
-                    placeholder="Notas"
-                    fullWidth
-                  />)
-              }
-            </Grid>
-          </Grid>
+            }
+            label="Lesión"
+          />
         </Grid>
-        <Grid item xs={1}></Grid>
+      </Grid>
+      <Grid container className={classes.container}>
+        <Grid item xs={6} className={classes.column} >
+          {
+            state.personInjury.haveInjury && (
+              <>
+                <InputLabel id="demo-mutiple-checkbox-label">Lesiones</InputLabel>
+                <FormControl fullWidth>
+                  <Autocomplete
+                    multiple
+                    id="tags-standard"
+                    options={injuries}
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        label="Seleccione lesiones"
+                      />
+                    )}
+                  />
+
+                </FormControl>
+              </>
+            )
+          }
+        </Grid>
+        <Grid item xs={6} className={classes.column} >
+          {
+            state.personInjury.haveInjury && (
+              <TextField
+                id="outlined-multiline-static"
+                label="Notas"
+                value={state.personInjury.injuryNotes}
+                onChange={onPropChange('injuryNotes')}
+                multiline
+                rows={3}
+                variant="outlined"
+                placeholder="Notas"
+                fullWidth
+              />)
+          }
+        </Grid>
       </Grid>
     </>
   )
