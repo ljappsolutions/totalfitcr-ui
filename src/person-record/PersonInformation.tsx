@@ -3,6 +3,11 @@ import { createUseStyles } from "react-jss";
 import { Grid, TextField } from "@material-ui/core";
 import { CustomTextField } from "../shared/components/TextField";
 import AppointmentContext, { IAppointmentContext } from "../shared/contexts/appointment";
+import { IDynamic } from "../shared/models/dynamic";
+
+interface IProps {
+  errors: IDynamic | null
+}
 
 const useStyles = createUseStyles({
   container: {
@@ -16,9 +21,12 @@ const useStyles = createUseStyles({
   }
 })
 
-export const PersonInformation: React.FunctionComponent = () => {
+export const PersonInformation: React.FunctionComponent<IProps> = (props) => {
   const context = useContext<IAppointmentContext | null>(AppointmentContext);
-  const [errors, setErrors] = useState<any>({});
+  let [errors, setErrors] = useState<IDynamic>({});
+  errors = {
+    ...props.errors,
+  }
   const classes = useStyles();
   if (!context) return null;
   const { state, updatePersonInformation } = context;
@@ -78,17 +86,7 @@ export const PersonInformation: React.FunctionComponent = () => {
       });
     }
   }
-  const checkRequiredFields = (values: any) => {
-    const requiredFields = ['name', 'lastName', 'email', 'id', 'phoneNumber', 'birthday']
-    requiredFields.forEach(field => {
-      if (!values[field]) {
-        errors[field] = 'Required'
-        setErrors({ ...errors });
-      } else {
-        errors[field] = ''
-      }
-    });
-  }
+
   return (
     <>
       <Grid container className={classes.container}>

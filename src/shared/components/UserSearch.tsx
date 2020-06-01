@@ -2,18 +2,18 @@ import React, { useState, FunctionComponent } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField } from "@material-ui/core";
 import { UserService } from "../services/user";
-import { IPersonInformationState } from "../models/person/person-information";
+import { PersonDetailsInfo } from "../models/person/person-details";
 
 interface IProps {
-  selectUser: (option: IPersonInformationState) => void
-  user?: IPersonInformationState;
+  selectUser: (option: PersonDetailsInfo) => void
+  user?: PersonDetailsInfo;
 }
 
 export const UserSearch: FunctionComponent<IProps> = (props) => {
   const { selectUser, user } = props;
   const [inputValue, setInputValue] = useState('');
-  const [options, setOptions] = useState<IPersonInformationState[]>([]);
-  const [value, setValue] = useState<IPersonInformationState | null>(user || null);
+  const [options, setOptions] = useState<PersonDetailsInfo[]>([]);
+  const [value, setValue] = useState<PersonDetailsInfo | null>(user || null);
 
   React.useEffect(() => {
     if (inputValue === '') {
@@ -29,7 +29,7 @@ export const UserSearch: FunctionComponent<IProps> = (props) => {
     fetchData();
   }, [value, inputValue]);
 
-  const getFullName = (option: IPersonInformationState) => `${option.name} ${option.lastName}`;
+  const getFullName = (option: PersonDetailsInfo) => `${option.name} ${option.lastName}`;
 
   return (
     <>
@@ -41,11 +41,11 @@ export const UserSearch: FunctionComponent<IProps> = (props) => {
         includeInputInList
         filterSelectedOptions
         value={value}
-        getOptionLabel={(option: IPersonInformationState) => getFullName(option)}
+        getOptionLabel={(option: PersonDetailsInfo) => getFullName(option)}
         renderInput={(params) => (
-          <TextField {...params} label="Search user" variant="outlined" fullWidth />
+          <TextField {...params} label="Buscar usuario" variant="outlined" fullWidth />
         )}
-        onChange={(event: any, newValue: IPersonInformationState | null) => {
+        onChange={(event: any, newValue: PersonDetailsInfo | null) => {
           setOptions(newValue ? [newValue, ...options] : options);
           setValue(newValue);
           if (newValue)
@@ -55,8 +55,7 @@ export const UserSearch: FunctionComponent<IProps> = (props) => {
           if(newInputValue.length > 2)
             setInputValue(newInputValue);
         }}
-        renderOption={(option: IPersonInformationState) => {
-          console.log(parseInt(inputValue));
+        renderOption={(option: PersonDetailsInfo) => {
           if (!isNaN(parseInt(inputValue))) {
             return option.id;
           }

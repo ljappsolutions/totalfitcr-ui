@@ -6,16 +6,17 @@ import { PersonReview } from "../person-record/PersonReview";
 import { PersonInjury } from "../person-record/PersonInjury";
 import { PersonRecord } from "../person-record/PersonRecord";
 import { Routine } from "../routine/Routine";
-import AppointmentContext, { defaultValue } from "../shared/contexts/appointment";
+import AppointmentContext, { defaultValue, validateDetails, validateInjury, validateReview, validateRecord } from "../shared/contexts/appointment";
 import { IAppointment } from "../shared/models/appointment";
-import { IPersonInformationState } from "../shared/models/person/person-information";
-import { IPersonInjury } from "../shared/models/person/person-injury";
-import { IPersonReview } from "../shared/models/person/person-review";
-import { IPersonRecord } from "../shared/models/person/person-record";
+import { PersonDetailsInfo } from "../shared/models/person/person-details";
+import { PersonInjuryInfo } from "../shared/models/person/person-injury";
+import { PersonRecordInfo } from "../shared/models/person/person-record";
 import { IRoutine } from "../shared/models/routine";
 import { createUseStyles } from "react-jss";
 import { Summary } from "../routine/Summary";
 import { UserSearch } from "../shared/components/UserSearch";
+import { PersonReviewInfo } from "../shared/models/person/person-review";
+import { getErrorDetails, areThereErrors } from "../shared/utils/joiful";
 
 interface IProps {
 
@@ -37,7 +38,32 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
   const totalLength = state.personRecord.numberOfRoutines + 2;
 
   const moveStepForward = () => {
-    setStep(step+1);
+    let isValidStep = false;
+    if(step === 1) {
+      const personDetailsValidation = validateDetails(state.personInformation);
+      const personInjuryValidation = validateInjury(state.personInjury);
+      const personReviewValidation = validateReview(state.personReview);
+      const personRecordValidation = validateRecord(state.personRecord);
+      isValidStep = !areThereErrors([personDetailsValidation,
+        personInjuryValidation,
+        personReviewValidation,
+        personRecordValidation]);
+      console.log(personDetailsValidation);
+      if(!isValidStep) {
+        setState({
+          ...state,
+          errors: {
+            personInformation: getErrorDetails(personDetailsValidation),
+            personInjury: getErrorDetails(personInjuryValidation),
+            personRecord: getErrorDetails(personRecordValidation),
+            personReview: getErrorDetails(personReviewValidation),
+          }
+        })
+      }
+    }
+    if(isValidStep) {
+      setStep(step+1);
+    }
   }
 
   const canMoveForward = () => {
@@ -71,7 +97,7 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
                 <UserSearch selectUser={selectUser} user={state.personInformation} />
               </Grid>
             </Grid>
-            <PersonInformation />
+            <PersonInformation errors={state.errors?.personInformation ?? null} />
             <PersonReview />
             <PersonInjury />
             <PersonRecord />
@@ -95,7 +121,7 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
     )
   }
 
-  const selectUser = (userInfo: IPersonInformationState) => {
+  const selectUser = (userInfo: PersonDetailsInfo) => {
     setState({
       ...state,
       personInformation: {
@@ -104,31 +130,47 @@ export const GymAppointment: FunctionComponent<IProps> = (props) => {
     })
   }
 
-  const updatePersonInformation = (info: IPersonInformationState) => {
+  const updatePersonInformation = (info: PersonDetailsInfo) => {
     setState({
       ...state,
-      personInformation: info
+      personInformation: info,
+      errors: {
+        ...state.errors,
+        personInformation: null,
+      }
     })
   }
 
-  const updatePersonInjury = (info: IPersonInjury) => {
+  const updatePersonInjury = (info: PersonInjuryInfo) => {
     setState({
       ...state,
-      personInjury: info
+      personInjury: info,
+      errors: {
+        ...state.errors,
+        personInjury: null,
+      }
     })
   }
 
-  const updatePersonReview = (info: IPersonReview) => {
+  const updatePersonReview = (info: PersonReviewInfo) => {
     setState({
       ...state,
       personReview: info,
+      errors: {
+        ...state.errors,
+        personReview: null,
+      }
     })
   }
 
-  const updatePersonRecord = (info: IPersonRecord, routines?: IRoutine[]) => {
+  const updatePersonRecord = (info: PersonRecordInfo, routines?: IRoutine[]) => {
     setState({
       ...state,
       personRecord: info,
+      errors: {
+        ...state.errors,
+        personRecord: null,
+      },
       routines: routines ?? state.routines,
     })
   }
