@@ -1,13 +1,13 @@
-import { IPersonInformationState } from "../models/person/person-information";
+import { PersonDetailsInfo } from "../models/person/person-details";
 
 export class UserService {
-  private users: IPersonInformationState[] = [
+  private users: PersonDetailsInfo[] = [
     {
       name: 'Juan Daniel',
       lastName: 'Sanchez',
       id: '402070775',
       email: 'jdsanchez@ljappsolutions',
-      birthday: '09-20-1990',
+      birthday: '1990-09-20',
       phoneNumber: '88164859'
     },
     {
@@ -35,7 +35,7 @@ export class UserService {
       phoneNumber: '88164859'
     }
   ];
-  public find = async (searchTxt: string): Promise<IPersonInformationState[]> => {
+  public find = async (searchTxt: string): Promise<PersonDetailsInfo[]> => {
     const filteredUsers = this.users.filter(x => x.name.includes(searchTxt)
       || x.lastName.includes(searchTxt)
       || x.email.includes(searchTxt)
