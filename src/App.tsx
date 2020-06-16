@@ -9,6 +9,11 @@ import { config } from './aws-custom-exports';
 import Amplify, { Hub, Auth } from 'aws-amplify';
 import { withOAuth } from 'aws-amplify-react';
 import Navigation from "./navigation/Navigation";
+import { GymAppointment } from "./gym-appointment/GymAppointment";
+import { UserList } from "./user/UserList";
+
+
+
 
 Amplify.configure(config);
 
@@ -74,8 +79,12 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/contacto">
-            <About />
+          <Route path="/dashboard"></Route>
+          <Route path="/appointment">
+            <GymAppointment />
+          </Route>
+          <Route path="/users">
+            <UserList />
           </Route>
           <Route path="/dashboard">
             <Dashboard />
@@ -89,15 +98,7 @@ const App: FunctionComponent<IAppProps> = (props: IAppProps) => {
 function Home() {
   return (
     <div>
-      <h2>Inicio</h2>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h2>Acerca de nosotros</h2>
+      <h2>Home</h2>
     </div>
   );
 }
